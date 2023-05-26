@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import AppModal from './../AppModal/AppModal';
-import FetchUsers from './../../utils/FetchBackend/rest/api/users';
-import FetchItemBrand from './../../utils/FetchBackend/rest/api/item-brands';
-import AppManagerTableView from './../AppManagerTableView/AppManagerTableView';
+import AppModal from '../AppModal/AppModal';
+import TableView from '../TableView/TableView';
+import FetchUsers from '../../utils/FetchBackend/rest/api/users';
+import FetchItemBrand from '../../utils/FetchBackend/rest/api/item-brands';
 import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
 
-export default function BrandsPage() {
+export default function GetBrandsPage() {
   const navigate = useNavigate();
   const [modal, setModal] = useState(<></>);
   const [brands, setBrands] = useState([
@@ -65,7 +65,7 @@ export default function BrandsPage() {
   }
 
   return (
-    <AppManagerTableView
+    <TableView
       side={
         <>
           <button onClick={() => navigate('new/create')}>Создать новый</button>
@@ -112,6 +112,6 @@ export default function BrandsPage() {
           })}
         </tbody>
       </table>
-    </AppManagerTableView>
+    </TableView>
   );
 }

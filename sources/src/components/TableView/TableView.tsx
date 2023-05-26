@@ -1,13 +1,14 @@
 import { ReactNode } from 'react';
-import styles from './AppManagerTableView.module.css';
 import { useNavigate } from 'react-router-dom';
+
+import styles from './TableView.module.css';
 
 interface IProps {
   children: ReactNode;
   side: ReactNode;
 }
 
-export default function AppManagerTableView(props: IProps) {
+export default function TableView(props: IProps) {
   const navigate = useNavigate();
 
   return (
