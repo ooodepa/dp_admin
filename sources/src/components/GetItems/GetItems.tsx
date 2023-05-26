@@ -271,12 +271,12 @@ export default function GetItemsPage() {
           </button>
           <button onClick={saveAsJson}>Скачать как JSON</button>
           <button onClick={saveItemsAsXlsx}>Скачать как XLSX</button>
+          <button onClick={removeFilters}>Убрать фильтры</button>
 
-          <p>Фильтр:</p>
-          <button onClick={removeFilters}>убрать фильтры</button>
+          <p>Фильтровать по полям:</p>
           <ul>
             <li>
-              <label htmlFor="filterCategoryId">Код категории</label>
+              <label htmlFor="filterCategoryId">- код категории</label>
               <input
                 id="filterCategoryId"
                 type="number"
@@ -288,7 +288,7 @@ export default function GetItemsPage() {
               />
             </li>
             <li>
-              <label htmlFor="filterModel">Модель</label>
+              <label htmlFor="filterModel">- модель</label>
               <input
                 id="filterModel"
                 type="text"
@@ -297,7 +297,7 @@ export default function GetItemsPage() {
               />
             </li>
             <li>
-              <label htmlFor="filterName">Наименование</label>
+              <label htmlFor="filterName">- наименование</label>
               <input
                 id="filterName"
                 type="text"
@@ -306,7 +306,7 @@ export default function GetItemsPage() {
               />
             </li>
             <li>
-              <p>Сортировка:</p>
+              <p>Сортировка по полю:</p>
               <ul>
                 <li>
                   <input
@@ -316,7 +316,9 @@ export default function GetItemsPage() {
                     onChange={() => setIsReverseSort(!isReverseSort)}
                   />
                   <label htmlFor="sortReverse"></label>
-                  <span>Обратная</span>
+                  <span title="Использовать обратную сортировку">
+                    исп. обратную сорт.
+                  </span>
                 </li>
                 <li>
                   <input
@@ -325,7 +327,7 @@ export default function GetItemsPage() {
                     name="sort"
                     onChange={() => setSortType('model')}
                   />
-                  <label htmlFor="sortModel">Модель</label>
+                  <label htmlFor="sortModel">модель</label>
                 </li>
                 <li>
                   <input
@@ -334,7 +336,7 @@ export default function GetItemsPage() {
                     name="sort"
                     onChange={() => setSortType('name')}
                   />
-                  <label htmlFor="sortName">Наименование</label>
+                  <label htmlFor="sortName">наименование</label>
                 </li>
                 <li>
                   <input
@@ -343,7 +345,7 @@ export default function GetItemsPage() {
                     name="sort"
                     onChange={() => setSortType('categoryId')}
                   />
-                  <label htmlFor="sortCodeCategory">Код категории</label>
+                  <label htmlFor="sortCodeCategory">код категории</label>
                 </li>
                 <li>
                   <input
@@ -352,7 +354,7 @@ export default function GetItemsPage() {
                     name="sort"
                     onChange={() => setSortType('cost')}
                   />
-                  <label htmlFor="sortCost">Цена</label>
+                  <label htmlFor="sortCost">цена</label>
                 </li>
               </ul>
             </li>
