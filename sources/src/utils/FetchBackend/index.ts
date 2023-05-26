@@ -1,4 +1,5 @@
 import HttpException from './HttpException';
+import UpdateSessionResponseDto from './rest/api/sessions/dto/update-session-response.dto';
 
 async function update() {
   const refreshToken = localStorage.getItem('refresh');
@@ -8,14 +9,19 @@ async function update() {
   }
 
   const URL = `${process.env.REACT_APP__BACKEND_URL}/api/v1/sessions`;
+
+  console.log({method: 'PATCH', URL});
+
   const response = await fetch(URL, {
     method: 'PATCH',
     headers: {
-      Authorization: `token`,
+      Authorization: `Bearer ${refreshToken}`,
     },
   });
 
   if (response.status === 200) {
+    const json: UpdateSessionResponseDto = await response.json();
+    localStorage.setItem('access', json.dp_accessToken);
     return true;
   }
 
