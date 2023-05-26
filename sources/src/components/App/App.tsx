@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import HomePage from '../HomePage/HomePage';
 import LoginPage from '../LoginPage/LoginPage';
 import GetItemsPage from '../GetItems/GetItems';
+import Error404Page from '../Error404Page/Error404Page';
 import GetBrandsPage from '../GetBrandsPage/GetBrandsPage';
 import CreateBrandPage from '../CreateBrandPage/CreateBrandPage';
 import UpdateBrandPage from '../UpdateBrandPage/UpdateBrandPage';
@@ -16,7 +17,7 @@ export default function App() {
       <Route path="/brands" element={<GetBrandsPage />} />
       <Route path="/brands/:id/" element={<UpdateBrandPage />} />
       <Route path="/brands/new/create" element={<CreateBrandPage />} />
-      <Route path="*" element={<div>404</div>} />
+      <Route path="*" element={<Error404Page />} />
     </Routes>
   );
 }
