@@ -34,6 +34,12 @@ export async function AsyncAlertExceptionHelper(
       return;
     }
 
+    if (exception instanceof HttpException && exception.HTTP_STATUS === 403) {
+      navigate('/login');
+      alert('У вас нет роли администратора');
+      return;
+    }
+
     if (exception instanceof HttpException) {
       const json: HttpResponseDto = await exception.RESPONSE.json();
 

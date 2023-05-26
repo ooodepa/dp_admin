@@ -10,6 +10,10 @@ export default class FetchUsers {
       return true;
     }
 
+    if (response.status === 403) {
+      return false;
+    }
+
     throw new HttpException(result.method, response);
   }
 }

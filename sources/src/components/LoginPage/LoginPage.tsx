@@ -3,6 +3,7 @@ import { ChangeEvent, SyntheticEvent, useState } from 'react';
 
 import styles from './LoginPage.module.css';
 import AppModal from '../AppModal/AppModal';
+import FetchUsers from '../../utils/FetchBackend/rest/api/users';
 import HttpException from './../../utils/FetchBackend/HttpException';
 import FetchSessions from './../../utils/FetchBackend/rest/api/sessions';
 
@@ -49,6 +50,12 @@ export default function LoginPage() {
         );
 
         if (!isLogin) {
+          return;
+        }
+
+        const isAdmin = await FetchUsers.isAdmin();
+        if (!isAdmin) {
+          alert('Вы не администратор');
           return;
         }
 
