@@ -6,31 +6,18 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import AppModal from './../AppModal/AppModal';
-import styles from './UpdateBrandPage.module.css';
-import AppContainer from './../AppContainer/AppContainer';
-import FetchUsers from './../../utils/FetchBackend/rest/api/users';
-import HttpException from './../../utils/FetchBackend/HttpException';
-import FetchItemBrand from './../../utils/FetchBackend/rest/api/item-brands';
+import AppModal from '../AppModal/AppModal';
+import styles from './CreateItemBrandPage.module.css';
+import AppContainer from '../AppContainer/AppContainer';
+import FetchUsers from '../../utils/FetchBackend/rest/api/users';
+import FetchItemBrand from '../../utils/FetchBackend/rest/api/item-brands';
 import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
 
-export default function UpdateBrandPage() {
-  const { id } = useParams();
+export default function CreateBrandPage() {
   const navigate = useNavigate();
   const [modal, setModal] = useState(<></>);
-  const [is404, setIs404] = useState(false);
-  const [original, setOriginal] = useState({
-    dp_id: 0,
-    dp_name: '',
-    dp_photoUrl: '',
-    dp_urlSegment: '',
-    dp_sortingIndex: 0,
-    dp_seoKeywords: '',
-    dp_seoDescription: '',
-    dp_isHidden: false,
-  });
   const [data, setData] = useState({
     dp_id: 0,
     dp_name: '',
@@ -43,33 +30,14 @@ export default function UpdateBrandPage() {
   });
 
   useEffect(() => {
-    const dp_id: number = Number(id);
-
-    if (!dp_id) {
-      setIs404(true);
-      return;
-    }
-
     (async function () {
       try {
         await FetchUsers.isAdmin();
-
-        const brand = await FetchItemBrand.getById(dp_id);
-        setData(brand);
-        setOriginal(brand);
-        setIs404(false);
       } catch (exception) {
-        if (exception instanceof HttpException) {
-          if (exception.HTTP_STATUS === 404) {
-            setIs404(true);
-            return;
-          }
-        }
-
         await AsyncAlertExceptionHelper(exception, navigate);
       }
     })();
-  }, [id, navigate]);
+  }, [navigate]);
 
   function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
     const { name } = e.target;
@@ -95,70 +63,30 @@ export default function UpdateBrandPage() {
 
     setModal(
       <AppModal
-        title="Сохранение элемента"
-        message="Вы уверены, что хотите сохранить это">
-        <button onClick={save}>Сохранить</button>
-        <button onClick={() => setModal(<></>)}>Не сохранять</button>
+        title="Добавление элемента"
+        message="Вы уверены, что хотите добавить эту запись">
+        <button onClick={create}>Добавить</button>
+        <button onClick={() => setModal(<></>)}>Отмена</button>
       </AppModal>,
     );
   }
 
-  async function save() {
+  async function create() {
     try {
-      setModal(<></>);
-
-      if (JSON.stringify(original) === JSON.stringify(data)) {
-        setModal(
-          <AppModal
-            title="Сохранение элемента"
-            message="Вы не редактировали элемент. Нет того, что сохранить">
-            <button onClick={() => setModal(<></>)}>Закрыть</button>
-          </AppModal>,
-        );
-        return;
-      }
-
-      await FetchItemBrand.update(data.dp_id, data);
+      await FetchItemBrand.create(data);
       navigate('/brands');
     } catch (exception) {
       await AsyncAlertExceptionHelper(exception, navigate);
     }
   }
 
-  function toListPage() {
-    if (JSON.stringify(original) === JSON.stringify(data)) {
-      navigate('/brands');
-      return;
-    }
-
-    setModal(
-      <AppModal
-        title="Сохранение элемента"
-        message="Вы отредактировали элемент, но не сохранили.">
-        <button onClick={() => setModal(<></>)}>Вернуться к форме</button>
-        <button onClick={() => navigate('/brands')}>Не сохранять</button>
-      </AppModal>,
-    );
-  }
-
-  if (is404) {
-    return <p>Нет такого бренда в БД (dp_id={id})</p>;
-  }
-
   return (
     <AppContainer>
       {modal}
-      <h2>Редактор бренда</h2>
-      <div className={styles.specialButtons}>
-        <button onClick={toListPage}>Вернуться к списку</button>
-      </div>
+      <h2>Создание бренда</h2>
       <form onSubmit={handleOnSubmit} className={styles.form}>
         <table className={styles.table}>
           <tbody>
-            <tr>
-              <td>ID</td>
-              <td>{data.dp_id}</td>
-            </tr>
             <tr>
               <td>Наименование</td>
               <td>
@@ -250,7 +178,7 @@ export default function UpdateBrandPage() {
             </tr>
             <tr>
               <td colSpan={2}>
-                <input type="submit" value="Сохранить" />
+                <input type="submit" value="Добавить" />
               </td>
             </tr>
           </tbody>

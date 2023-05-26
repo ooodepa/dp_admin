@@ -4,11 +4,11 @@ import HomePage from '../HomePage/HomePage';
 import LoginPage from '../LoginPage/LoginPage';
 import GetItemsPage from '../GetItems/GetItems';
 import Error404Page from '../Error404Page/Error404Page';
-import GetBrandsPage from '../GetBrandsPage/GetBrandsPage';
 import CreateItemPage from '../CreateItemPage/CreateItemPage';
 import UpdateItemPage from '../UpdateItemPage/UpdateItemPage';
-import CreateBrandPage from '../CreateBrandPage/CreateBrandPage';
-import UpdateBrandPage from '../UpdateBrandPage/UpdateBrandPage';
+import GetItemBrandsPage from '../GetItemBrandsPage/GetItemBrandsPage';
+import CreateImemBrandPage from '../CreateItemBrandPage/CreateItemBrandPage';
+import UpdateItemBrandPage from '../UpdateItemBrandPage/UpdateItemBrandPage';
 import GetItemCategoriesPage from '../GetItemCategoriesPage/GetItemCategoriesPage';
 import CreateItemCategoryPage from '../CreateItemCategoryPage/CreateItemCategoryPage';
 import UpdateItemCategoryPage from '../UpdateItemCategoryPage/UpdateItemCategoryPage';
@@ -21,9 +21,9 @@ export default function App() {
       <Route path="/items" element={<GetItemsPage />} />
       <Route path="/items/:id/" element={<UpdateItemPage />} />
       <Route path="/items/new/create" element={<CreateItemPage />} />
-      <Route path="/brands" element={<GetBrandsPage />} />
-      <Route path="/brands/:id/" element={<UpdateBrandPage />} />
-      <Route path="/brands/new/create" element={<CreateBrandPage />} />
+      <Route path="/brands" element={<GetItemBrandsPage />} />
+      <Route path="/brands/:id/" element={<UpdateItemBrandPage />} />
+      <Route path="/brands/new/create" element={<CreateImemBrandPage />} />
       <Route path="/item-categories/:id" element={<UpdateItemCategoryPage />} />
       <Route
         path="/item-categories/new/create"
