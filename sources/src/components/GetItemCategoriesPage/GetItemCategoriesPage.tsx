@@ -59,8 +59,8 @@ export default function GetItemCategoriesPage() {
       await FetchItemCategories.remove(id);
 
       const itemCategories = (await FetchItemCategories.get())
-      .sort((a, b) => a.dp_sortingIndex - b.dp_sortingIndex)
-      .sort((a, b) => a.dp_itemBrandId - b.dp_itemBrandId);
+        .sort((a, b) => a.dp_sortingIndex - b.dp_sortingIndex)
+        .sort((a, b) => a.dp_itemBrandId - b.dp_itemBrandId);
       setCategories(itemCategories);
     } catch (exception) {
       await AsyncAlertExceptionHelper(exception, navigate);
@@ -92,9 +92,7 @@ export default function GetItemCategoriesPage() {
         setBrandId.add(e.dp_itemBrandId);
       });
 
-      const arrayBrandId = Array.from(setBrandId).sort(
-        (a, b) => a - b,
-      );
+      const arrayBrandId = Array.from(setBrandId).sort((a, b) => a - b);
 
       const workbook = xlsx.utils.book_new();
       for (let i = 0; i < arrayBrandId.length; ++i) {

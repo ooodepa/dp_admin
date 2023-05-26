@@ -10,7 +10,7 @@ async function update() {
 
   const URL = `${process.env.REACT_APP__BACKEND_URL}/api/v1/sessions`;
 
-  console.log({method: 'PATCH', URL});
+  console.log({ method: 'PATCH', URL });
 
   const response = await fetch(URL, {
     method: 'PATCH',
@@ -53,7 +53,7 @@ export default async function FetchBackend(
   const URL = `${process.env.REACT_APP__BACKEND_URL}/api/v1/${uri}`;
 
   // eslint-disable-next-line no-console
-  console.log({method, URL, useAccessToken: type === 'access'});
+  console.log({ method, URL, isUseAccessToken: type === 'access' });
 
   if (method === 'GET') {
     const response = await fetch(URL, {

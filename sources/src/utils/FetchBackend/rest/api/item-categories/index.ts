@@ -80,7 +80,11 @@ export default class FetchItemCategories {
   }
 
   static async remove(id: number) {
-    const result = await FetchBackend('access', 'DELETE', `item-categories/${id}`);
+    const result = await FetchBackend(
+      'access',
+      'DELETE',
+      `item-categories/${id}`,
+    );
     const response = result.response;
 
     if (response.status === 200) {

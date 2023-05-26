@@ -84,37 +84,49 @@ export default function GetItemsPage() {
         checkMatch(filterName, e.dp_name),
       );
     }
-    
+
     if (!isReverseSort && sortType === 'name') {
-      setItems([...filteredItems].sort((a, b) => a.dp_name.localeCompare(b.dp_name)));
+      setItems(
+        [...filteredItems].sort((a, b) => a.dp_name.localeCompare(b.dp_name)),
+      );
       return;
     }
 
     if (isReverseSort && sortType === 'name') {
-      setItems([...filteredItems].sort((a, b) => b.dp_name.localeCompare(a.dp_name)));
+      setItems(
+        [...filteredItems].sort((a, b) => b.dp_name.localeCompare(a.dp_name)),
+      );
       return;
     }
 
     if (!isReverseSort && sortType === 'model') {
-      setItems([...filteredItems].sort((a, b) => a.dp_model.localeCompare(b.dp_model)));
+      setItems(
+        [...filteredItems].sort((a, b) => a.dp_model.localeCompare(b.dp_model)),
+      );
       return;
     }
 
     if (isReverseSort && sortType === 'model') {
-      setItems([...filteredItems].sort((a, b) => b.dp_model.localeCompare(a.dp_model)));
+      setItems(
+        [...filteredItems].sort((a, b) => b.dp_model.localeCompare(a.dp_model)),
+      );
       return;
     }
 
     if (!isReverseSort && sortType === 'categoryId') {
       setItems(
-        [...filteredItems].sort((a, b) => a.dp_itemCategoryId - b.dp_itemCategoryId),
+        [...filteredItems].sort(
+          (a, b) => a.dp_itemCategoryId - b.dp_itemCategoryId,
+        ),
       );
       return;
     }
 
     if (isReverseSort && sortType === 'categoryId') {
       setItems(
-        [...filteredItems].sort((a, b) => b.dp_itemCategoryId - a.dp_itemCategoryId),
+        [...filteredItems].sort(
+          (a, b) => b.dp_itemCategoryId - a.dp_itemCategoryId,
+        ),
       );
       return;
     }
@@ -364,11 +376,13 @@ export default function GetItemsPage() {
         <tbody>
           {items.map(e => {
             const uuid = e.dp_id;
-            const firstCharsId = `${uuid}`.substring(0,4);
+            const firstCharsId = `${uuid}`.substring(0, 4);
             const lastCharsId = `${uuid}`.substring(32);
             return (
               <tr key={uuid}>
-                <td title={uuid} style={{fontFamily: 'courier'}}>{firstCharsId}...{lastCharsId}</td>
+                <td title={uuid} style={{ fontFamily: 'courier' }}>
+                  {firstCharsId}...{lastCharsId}
+                </td>
                 <td>
                   {!e.dp_photoUrl ? 'нет' : <img src={e.dp_photoUrl} alt="x" />}
                 </td>

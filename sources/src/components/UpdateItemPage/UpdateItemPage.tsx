@@ -389,10 +389,7 @@ export default function UpdateItemPage() {
                   <option value="0"> - - - Выберите категорию</option>
                   {itemCategories.map(e => {
                     return (
-                      <option
-                        key={e.dp_id}
-                        value={e.dp_id}
-                        >
+                      <option key={e.dp_id} value={e.dp_id}>
                         {e.dp_id} - {e.dp_name}
                       </option>
                     );
