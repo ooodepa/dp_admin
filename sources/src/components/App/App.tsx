@@ -6,6 +6,7 @@ import GetItemsPage from '../GetItems/GetItems';
 import Error404Page from '../Error404Page/Error404Page';
 import GetBrandsPage from '../GetBrandsPage/GetBrandsPage';
 import CreateItemPage from '../CreateItemPage/CreateItemPage';
+import UpdateItemPage from '../UpdateItemPage/UpdateItemPage';
 import CreateBrandPage from '../CreateBrandPage/CreateBrandPage';
 import UpdateBrandPage from '../UpdateBrandPage/UpdateBrandPage';
 
@@ -15,6 +16,7 @@ export default function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/items" element={<GetItemsPage />} />
+      <Route path="/items/:id/" element={<UpdateItemPage />} />
       <Route path="/items/new/create" element={<CreateItemPage />} />
       <Route path="/brands" element={<GetBrandsPage />} />
       <Route path="/brands/:id/" element={<UpdateBrandPage />} />
