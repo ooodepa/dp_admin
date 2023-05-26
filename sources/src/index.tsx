@@ -1,16 +1,23 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { HashRouter, BrowserRouter } from 'react-router-dom';
+
 import './index.css';
-import App from './App';
+import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  process.env.REACT_APP__USE_BROWSER_ROUTER === 'true' ? (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  ) : (
+    <HashRouter>
+      <App />
+    </HashRouter>
+  ),
 );
 
 // If you want to start measuring performance in your app, pass a function
