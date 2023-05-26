@@ -304,7 +304,7 @@ export default function GetItemsPage() {
                     type="checkbox"
                     checked={isReverseSort}
                     onChange={() => setIsReverseSort(!isReverseSort)}
-                    />
+                  />
                   <label htmlFor="sortReverse"></label>
                   <span>Обратная</span>
                 </li>
@@ -319,7 +319,7 @@ export default function GetItemsPage() {
                 </li>
                 <li>
                   <input
-                    id='sortName'
+                    id="sortName"
                     type="radio"
                     name="sort"
                     onChange={() => setSortType('name')}
@@ -367,11 +367,7 @@ export default function GetItemsPage() {
             return (
               <tr key={e.dp_id}>
                 <td>
-                  {!e.dp_photoUrl ? (
-                    'нет'
-                  ) : (
-                    <img src={e.dp_photoUrl} alt="x" />
-                  )}
+                  {!e.dp_photoUrl ? 'нет' : <img src={e.dp_photoUrl} alt="x" />}
                 </td>
                 <td>{e.dp_model}</td>
                 <td>{e.dp_name}</td>
@@ -382,7 +378,7 @@ export default function GetItemsPage() {
                 </td>
                 <td>
                   <button onClick={() => preToDelete(e.dp_id)}>Удалить</button>
-                  </td>
+                </td>
               </tr>
             );
           })}
