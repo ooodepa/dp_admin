@@ -21,25 +21,27 @@ export default function CreateItemCategoryPage() {
   const [modal, setModal] = useState(<></>);
   const [data, setData] = useState({
     dp_id: 0,
-      dp_itemBrandId: 0,
-      dp_name: '',
-      dp_photoUrl: '',
-      dp_urlSegment: '',
-      dp_sortingIndex: 0,
-      dp_seoKeywords: '',
-      dp_seoDescription: '',
-      dp_isHidden: false,
-  });
-  const [brands, setBrands] = useState([{
-    dp_id: 0,
+    dp_itemBrandId: 0,
     dp_name: '',
-    // dp_photoUrl: '',
-    // dp_urlSegment: '',
-    // dp_sortingIndex: 0,
-    // dp_seoKeywords: '',
-    // dp_seoDescription: '',
-    // dp_isHidden: false,
-  }]);
+    dp_photoUrl: '',
+    dp_urlSegment: '',
+    dp_sortingIndex: 0,
+    dp_seoKeywords: '',
+    dp_seoDescription: '',
+    dp_isHidden: false,
+  });
+  const [brands, setBrands] = useState([
+    {
+      dp_id: 0,
+      dp_name: '',
+      // dp_photoUrl: '',
+      // dp_urlSegment: '',
+      // dp_sortingIndex: 0,
+      // dp_seoKeywords: '',
+      // dp_seoDescription: '',
+      // dp_isHidden: false,
+    },
+  ]);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -49,7 +51,6 @@ export default function CreateItemCategoryPage() {
 
         const itemBrands = await FetchItemBrand.get();
         setBrands(itemBrands);
-
       } catch (exception) {
         await AsyncAlertExceptionHelper(exception, navigate);
       }
@@ -103,7 +104,6 @@ export default function CreateItemCategoryPage() {
     }
 
     setErrors(formErrors);
-    console.log(formErrors)
 
     setModal(
       <AppModal
@@ -181,9 +181,8 @@ export default function CreateItemCategoryPage() {
                       ? '1'
                       : '0'
                   }>
-                  {((errors || {}) as Record<string, any>)[
-                    'dp_itemBrandId'
-                  ] || 'нет ошибки'}
+                  {((errors || {}) as Record<string, any>)['dp_itemBrandId'] ||
+                    'нет ошибки'}
                 </span>
               </td>
             </tr>
