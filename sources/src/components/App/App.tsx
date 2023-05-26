@@ -40,15 +40,15 @@ const routes: IRouter[] = [
     element: <CreateItemPage />,
   },
   {
-    path: '/brands',
+    path: '/item-brands',
     element: <GetItemBrandsPage />,
   },
   {
-    path: '/brands/:id/',
+    path: '/item-brands/:id/',
     element: <UpdateItemBrandPage />,
   },
   {
-    path: '/brands/new/create',
+    path: '/item-brands/new/create',
     element: <CreateImemBrandPage />,
   },
   {

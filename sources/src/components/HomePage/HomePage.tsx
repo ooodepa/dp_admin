@@ -12,7 +12,7 @@ const menu = [
   },
   {
     title: 'Бренды',
-    href: 'brands',
+    href: 'item-brands',
   },
   {
     title: 'Категории',

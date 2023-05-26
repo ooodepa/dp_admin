@@ -41,6 +41,7 @@ export default function UpdateBrandPage() {
     dp_seoDescription: '',
     dp_isHidden: false,
   });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const dp_id: number = Number(id);
@@ -72,18 +73,18 @@ export default function UpdateBrandPage() {
   }, [id, navigate]);
 
   function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
-    const { name } = e.target;
+    setErrors({});
 
-    if (name === 'dp_isHidden') {
-      const { checked } = e.target;
-      setData(prev => ({ ...prev, [name]: !checked }));
+    const { name, value, type } = e.target;
+
+    if (type === 'number') {
+      setData(prev => ({ ...prev, [name]: Number(value) }));
       return;
     }
 
-    const { value } = e.target;
-
-    if (name === 'dp_sortingIndex') {
-      setData(prev => ({ ...prev, [name]: Number(value) }));
+    if (type === 'checkbox') {
+      const { checked } = e.target;
+      setData(prev => ({ ...prev, [name]: checked }));
       return;
     }
 
@@ -92,6 +93,39 @@ export default function UpdateBrandPage() {
 
   function handleOnSubmit(event: SyntheticEvent) {
     event.preventDefault();
+
+    let formErrors: any = {};
+
+    if (data.dp_name.length === 0) {
+      formErrors.dp_name = 'Наименование не указано (оно обязательно)';
+    }
+
+    if (data.dp_seoDescription.length === 0) {
+      formErrors.dp_seoDescription = 'Описание не указано (оно обязательно)';
+    }
+
+    if (data.dp_urlSegment.length === 0) {
+      formErrors.dp_urlSegment = 'URL сегмент не указан (он обязателен)';
+    }
+
+    setErrors(formErrors);
+
+    if (Object.keys(formErrors).length > 0) {
+      setModal(
+        <AppModal
+          title="Создание элемента"
+          message={
+            'Проверите правильность заполнения полей \n' +
+            Object.keys(formErrors)
+              .map(name => `${name}: ${formErrors[name]}`)
+              .join('\n')
+          }>
+          <button onClick={() => setModal(<></>)}>Вернуться к форме</button>
+        </AppModal>,
+      );
+
+      return;
+    }
 
     setModal(
       <AppModal
@@ -119,7 +153,7 @@ export default function UpdateBrandPage() {
       }
 
       await FetchItemBrand.update(data.dp_id, data);
-      navigate('/brands');
+      navigate('/item-brands');
     } catch (exception) {
       await AsyncAlertExceptionHelper(exception, navigate);
     }
@@ -127,7 +161,7 @@ export default function UpdateBrandPage() {
 
   function toListPage() {
     if (JSON.stringify(original) === JSON.stringify(data)) {
-      navigate('/brands');
+      navigate('/item-brands');
       return;
     }
 
@@ -167,6 +201,7 @@ export default function UpdateBrandPage() {
                   onChange={handleOnChange}
                   name="dp_name"
                   value={data.dp_name}
+                  errors={errors}
                 />
               </td>
             </tr>
@@ -178,6 +213,7 @@ export default function UpdateBrandPage() {
                   onChange={handleOnChange}
                   name="dp_urlSegment"
                   value={data.dp_urlSegment}
+                  errors={errors}
                 />
               </td>
             </tr>
@@ -192,6 +228,7 @@ export default function UpdateBrandPage() {
                   name="dp_sortingIndex"
                   value={data.dp_sortingIndex}
                   min="0"
+                  errors={errors}
                 />
               </td>
             </tr>
@@ -202,8 +239,9 @@ export default function UpdateBrandPage() {
                   id="isCheked"
                   type="checkbox"
                   name="dp_isHidden"
-                  checked={!data.dp_isHidden}
+                  checked={data.dp_isHidden}
                   onChange={handleOnChange}
+                  errors={errors}
                 />
               </td>
             </tr>
@@ -215,6 +253,7 @@ export default function UpdateBrandPage() {
                   onChange={handleOnChange}
                   name="dp_photoUrl"
                   value={data.dp_photoUrl}
+                  errors={errors}
                 />
               </td>
             </tr>
@@ -235,6 +274,7 @@ export default function UpdateBrandPage() {
                   onChange={handleOnChange}
                   name="dp_seoDescription"
                   value={data.dp_seoDescription}
+                  errors={errors}
                 />
               </td>
             </tr>
@@ -245,6 +285,7 @@ export default function UpdateBrandPage() {
                   onChange={handleOnChange}
                   name="dp_seoKeywords"
                   value={data.dp_seoKeywords}
+                  errors={errors}
                 />
               </td>
             </tr>
@@ -260,27 +301,50 @@ export default function UpdateBrandPage() {
   );
 }
 
-function MyInput(props: InputHTMLAttributes<any>) {
+interface IMyInputProps<T> extends InputHTMLAttributes<T> {
+  errors: any;
+}
+
+function MyInput(props: IMyInputProps<any>) {
+  const errors = props.errors || {};
+  const name = props.name || '_';
+  const currentError = errors[name] || '';
+
   return (
     <>
       {props.type !== 'checkbox' ? null : (
         <label
           htmlFor={props.id}
-          className={styles.form__checkbox}
-          data-is-cheked={props.checked ? '0' : '1'}></label>
+          data-is-cheked={props.checked ? '1' : '0'}></label>
       )}
-      <input className={styles.form__input} {...props} />
+      <input data-has-errors={currentError.length ? '1' : '0'} {...props} />
+      <span data-has-errors={currentError.length ? '1' : '0'}>
+        {currentError}
+      </span>
     </>
   );
 }
 
-function MyTextArea(props: TextareaHTMLAttributes<any>) {
+interface IMyTextAreaProps<T> extends TextareaHTMLAttributes<T> {
+  errors: any;
+}
+
+function MyTextArea(props: IMyTextAreaProps<any>) {
+  const errors = props.errors || {};
+  const name = props.name || '_';
+  const currentError = errors[name] || '';
+
   return (
-    <textarea
-      className={styles.form__textarea}
-      name={props.name}
-      onChange={props.onChange}
-      value={props.value}
-    />
+    <>
+      <textarea
+        name={props.name}
+        onChange={props.onChange}
+        value={props.value}
+        data-has-errors={currentError.length ? '1' : '0'}
+      />
+      <span data-has-errors={currentError.length ? '1' : '0'}>
+        {currentError}
+      </span>
+    </>
   );
 }
