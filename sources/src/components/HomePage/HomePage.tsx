@@ -14,6 +14,10 @@ const menu = [
     title: 'Бренды',
     href: 'brands',
   },
+  {
+    title: 'Категории',
+    href: 'item-categories',
+  },
 ];
 
 export default function HomePage() {

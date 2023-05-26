@@ -1,9 +1,9 @@
-import GetItemBrandDto from './dto/get-item-brand.dto';
-import CreateItemBrandDto from './dto/create-item-brand.dto';
-import UpdateItemBrandDto from './dto/update-item-brand.dto';
 import FetchBackend from '../../..';
 import HttpException from '../../../HttpException';
+import GetItemBrandDto from './dto/get-item-brand.dto';
 import HttpResponseDto from '../../../dto/http-response.dto';
+import CreateItemBrandDto from './dto/create-item-brand.dto';
+import UpdateItemBrandDto from './dto/update-item-brand.dto';
 
 export default class FetchItemBrand {
   static async get() {
@@ -56,7 +56,7 @@ export default class FetchItemBrand {
     const response = result.response;
 
     if (response.status === 200) {
-      const json: HttpResponseDto[] = await response.json();
+      const json: HttpResponseDto = await response.json();
       return json;
     }
 
