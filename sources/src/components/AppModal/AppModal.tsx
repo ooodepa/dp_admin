@@ -12,7 +12,11 @@ export default function AppModal(props: IProps) {
     <div className={styles.wrapper}>
       <div className={styles.modal}>
         <div className={styles.header}>{props.title}</div>
-        <div className={styles.content}>{props.message}</div>
+        <div className={styles.content}>
+          {props.message.split('\n').map(e => (
+            <p>{e}</p>
+          ))}
+        </div>
         <div className={styles.buttons}>{props.children}</div>
       </div>
     </div>
