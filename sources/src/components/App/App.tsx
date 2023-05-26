@@ -13,24 +13,70 @@ import GetItemCategoriesPage from '../GetItemCategoriesPage/GetItemCategoriesPag
 import CreateItemCategoryPage from '../CreateItemCategoryPage/CreateItemCategoryPage';
 import UpdateItemCategoryPage from '../UpdateItemCategoryPage/UpdateItemCategoryPage';
 
+interface IRouter {
+  path: string;
+  element: React.ReactNode | null;
+}
+
+const routes: IRouter[] = [
+  {
+    path: '/',
+    element: <HomePage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/items',
+    element: <GetItemsPage />,
+  },
+  {
+    path: '/items/:id/',
+    element: <UpdateItemPage />,
+  },
+  {
+    path: '/items/new/create',
+    element: <CreateItemPage />,
+  },
+  {
+    path: '/brands',
+    element: <GetItemBrandsPage />,
+  },
+  {
+    path: '/brands/:id/',
+    element: <UpdateItemBrandPage />,
+  },
+  {
+    path: '/brands/new/create',
+    element: <CreateImemBrandPage />,
+  },
+  {
+    path: '/item-categories/:id',
+    element: <UpdateItemCategoryPage />,
+  },
+  {
+    path: '/item-categories/new/create',
+    element: <CreateItemCategoryPage />,
+  },
+  {
+    path: '/item-categories',
+    element: <GetItemCategoriesPage />,
+  },
+  {
+    path: '*',
+    element: <Error404Page />,
+  },
+];
+
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/items" element={<GetItemsPage />} />
-      <Route path="/items/:id/" element={<UpdateItemPage />} />
-      <Route path="/items/new/create" element={<CreateItemPage />} />
-      <Route path="/brands" element={<GetItemBrandsPage />} />
-      <Route path="/brands/:id/" element={<UpdateItemBrandPage />} />
-      <Route path="/brands/new/create" element={<CreateImemBrandPage />} />
-      <Route path="/item-categories/:id" element={<UpdateItemCategoryPage />} />
-      <Route
-        path="/item-categories/new/create"
-        element={<CreateItemCategoryPage />}
-      />
-      <Route path="/item-categories" element={<GetItemCategoriesPage />} />
-      <Route path="*" element={<Error404Page />} />
+      {routes.map((element, index) => {
+        return (
+          <Route key={index} path={element.path} element={element.element} />
+        );
+      })}
     </Routes>
   );
 }
