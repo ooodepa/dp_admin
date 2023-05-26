@@ -351,6 +351,7 @@ export default function GetItemsPage() {
       <table>
         <thead>
           <tr>
+            <td>id</td>
             <td>Картинка</td>
             <td>Модель</td>
             <td>Наименование</td>
@@ -362,8 +363,12 @@ export default function GetItemsPage() {
         </thead>
         <tbody>
           {items.map(e => {
+            const uuid = e.dp_id;
+            const firstCharsId = `${uuid}`.substring(0,4);
+            const lastCharsId = `${uuid}`.substring(32);
             return (
-              <tr key={e.dp_id}>
+              <tr key={uuid}>
+                <td title={uuid} style={{fontFamily: 'courier'}}>{firstCharsId}...{lastCharsId}</td>
                 <td>
                   {!e.dp_photoUrl ? 'нет' : <img src={e.dp_photoUrl} alt="x" />}
                 </td>
