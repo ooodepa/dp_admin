@@ -1,14 +1,9 @@
-import {
-  ChangeEvent,
-  InputHTMLAttributes,
-  SyntheticEvent,
-  TextareaHTMLAttributes,
-  useEffect,
-  useState,
-} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 
 import AppModal from '../AppModal/AppModal';
+import AppInput from '../AppInput/AppInput';
+import AppTextArea from '../AppTextArea/AppTextArea';
 import styles from './CreateItemBrandPage.module.css';
 import AppContainer from '../AppContainer/AppContainer';
 import FetchUsers from '../../utils/FetchBackend/rest/api/users';
@@ -124,7 +119,7 @@ export default function CreateBrandPage() {
             <tr>
               <td>Наименование</td>
               <td>
-                <MyInput
+                <AppInput
                   type="text"
                   onChange={handleOnChange}
                   name="dp_name"
@@ -136,7 +131,7 @@ export default function CreateBrandPage() {
             <tr>
               <td>URL сегмент</td>
               <td>
-                <MyInput
+                <AppInput
                   type="text"
                   onChange={handleOnChange}
                   name="dp_urlSegment"
@@ -150,7 +145,7 @@ export default function CreateBrandPage() {
                 Индекс <br /> для сортировки
               </td>
               <td>
-                <MyInput
+                <AppInput
                   type="number"
                   onChange={handleOnChange}
                   name="dp_sortingIndex"
@@ -163,7 +158,7 @@ export default function CreateBrandPage() {
             <tr>
               <td>Скрыт</td>
               <td>
-                <MyInput
+                <AppInput
                   id="isCheked"
                   type="checkbox"
                   name="dp_isHidden"
@@ -176,7 +171,7 @@ export default function CreateBrandPage() {
             <tr>
               <td>Картинка</td>
               <td>
-                <MyInput
+                <AppInput
                   type="text"
                   onChange={handleOnChange}
                   name="dp_photoUrl"
@@ -198,7 +193,7 @@ export default function CreateBrandPage() {
             <tr>
               <td>Описание</td>
               <td>
-                <MyTextArea
+                <AppTextArea
                   onChange={handleOnChange}
                   name="dp_seoDescription"
                   value={data.dp_seoDescription}
@@ -209,7 +204,7 @@ export default function CreateBrandPage() {
             <tr>
               <td>Ключевые слова</td>
               <td>
-                <MyTextArea
+                <AppTextArea
                   onChange={handleOnChange}
                   name="dp_seoKeywords"
                   value={data.dp_seoKeywords}
@@ -226,53 +221,5 @@ export default function CreateBrandPage() {
         </table>
       </form>
     </AppContainer>
-  );
-}
-
-interface IMyInputProps<T> extends InputHTMLAttributes<T> {
-  errors: any;
-}
-
-function MyInput(props: IMyInputProps<any>) {
-  const errors = props.errors || {};
-  const name = props.name || '_';
-  const currentError = errors[name] || '';
-
-  return (
-    <>
-      {props.type !== 'checkbox' ? null : (
-        <label
-          htmlFor={props.id}
-          data-is-cheked={props.checked ? '1' : '0'}></label>
-      )}
-      <input data-has-errors={currentError.length ? '1' : '0'} {...props} />
-      <span data-has-errors={currentError.length ? '1' : '0'}>
-        {currentError}
-      </span>
-    </>
-  );
-}
-
-interface IMyTextAreaProps<T> extends TextareaHTMLAttributes<T> {
-  errors: any;
-}
-
-function MyTextArea(props: IMyTextAreaProps<any>) {
-  const errors = props.errors || {};
-  const name = props.name || '_';
-  const currentError = errors[name] || '';
-
-  return (
-    <>
-      <textarea
-        name={props.name}
-        onChange={props.onChange}
-        value={props.value}
-        data-has-errors={currentError.length ? '1' : '0'}
-      />
-      <span data-has-errors={currentError.length ? '1' : '0'}>
-        {currentError}
-      </span>
-    </>
   );
 }

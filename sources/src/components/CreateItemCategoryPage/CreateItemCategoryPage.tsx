@@ -1,20 +1,15 @@
-import {
-  ChangeEvent,
-  InputHTMLAttributes,
-  SyntheticEvent,
-  TextareaHTMLAttributes,
-  useEffect,
-  useState,
-} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 
 import AppModal from '../AppModal/AppModal';
+import AppInput from '../AppInput/AppInput';
+import AppTextArea from '../AppTextArea/AppTextArea';
 import AppContainer from '../AppContainer/AppContainer';
 import styles from './CreateItemCategoryPage.module.css';
 import FetchUsers from '../../utils/FetchBackend/rest/api/users';
+import FetchItemBrand from '../../utils/FetchBackend/rest/api/item-brands';
 import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
 import FetchItemCategories from '../../utils/FetchBackend/rest/api/item-categories';
-import FetchItemBrand from '../../utils/FetchBackend/rest/api/item-brands';
 
 export default function CreateItemCategoryPage() {
   const navigate = useNavigate();
@@ -134,7 +129,7 @@ export default function CreateItemCategoryPage() {
             <tr>
               <td>Наименование</td>
               <td>
-                <MyInput
+                <AppInput
                   type="text"
                   onChange={handleOnChange}
                   name="dp_name"
@@ -189,7 +184,7 @@ export default function CreateItemCategoryPage() {
             <tr>
               <td>URL сегмент</td>
               <td>
-                <MyInput
+                <AppInput
                   type="text"
                   onChange={handleOnChange}
                   name="dp_urlSegment"
@@ -203,7 +198,7 @@ export default function CreateItemCategoryPage() {
                 Индекс <br /> для сортировки
               </td>
               <td>
-                <MyInput
+                <AppInput
                   type="number"
                   onChange={handleOnChange}
                   name="dp_sortingIndex"
@@ -216,7 +211,7 @@ export default function CreateItemCategoryPage() {
             <tr>
               <td>Скрыт</td>
               <td>
-                <MyInput
+                <AppInput
                   id="isCheked"
                   type="checkbox"
                   name="dp_isHidden"
@@ -229,7 +224,7 @@ export default function CreateItemCategoryPage() {
             <tr>
               <td>Картинка</td>
               <td>
-                <MyInput
+                <AppInput
                   type="text"
                   onChange={handleOnChange}
                   name="dp_photoUrl"
@@ -251,7 +246,7 @@ export default function CreateItemCategoryPage() {
             <tr>
               <td>Описание</td>
               <td>
-                <MyTextArea
+                <AppTextArea
                   onChange={handleOnChange}
                   name="dp_seoDescription"
                   value={data.dp_seoDescription}
@@ -262,7 +257,7 @@ export default function CreateItemCategoryPage() {
             <tr>
               <td>Ключевые слова</td>
               <td>
-                <MyTextArea
+                <AppTextArea
                   onChange={handleOnChange}
                   name="dp_seoKeywords"
                   value={data.dp_seoKeywords}
@@ -279,53 +274,5 @@ export default function CreateItemCategoryPage() {
         </table>
       </form>
     </AppContainer>
-  );
-}
-
-interface IMyInputProps<T> extends InputHTMLAttributes<T> {
-  errors: any;
-}
-
-function MyInput(props: IMyInputProps<any>) {
-  const errors = props.errors || {};
-  const name = props.name || '_';
-  const currentError = errors[name] || '';
-
-  return (
-    <>
-      {props.type !== 'checkbox' ? null : (
-        <label
-          htmlFor={props.id}
-          data-is-cheked={props.checked ? '1' : '0'}></label>
-      )}
-      <input data-has-errors={currentError.length ? '1' : '0'} {...props} />
-      <span data-has-errors={currentError.length ? '1' : '0'}>
-        {currentError}
-      </span>
-    </>
-  );
-}
-
-interface IMyTextAreaProps<T> extends TextareaHTMLAttributes<T> {
-  errors: any;
-}
-
-function MyTextArea(props: IMyTextAreaProps<any>) {
-  const errors = props.errors || {};
-  const name = props.name || '_';
-  const currentError = errors[name] || '';
-
-  return (
-    <>
-      <textarea
-        name={props.name}
-        onChange={props.onChange}
-        value={props.value}
-        data-has-errors={currentError.length ? '1' : '0'}
-      />
-      <span data-has-errors={currentError.length ? '1' : '0'}>
-        {currentError}
-      </span>
-    </>
   );
 }

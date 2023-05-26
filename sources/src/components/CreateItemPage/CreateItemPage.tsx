@@ -1,15 +1,10 @@
-import {
-  ChangeEvent,
-  InputHTMLAttributes,
-  SyntheticEvent,
-  TextareaHTMLAttributes,
-  useEffect,
-  useState,
-} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 
 import AppModal from '../AppModal/AppModal';
+import AppInput from '../AppInput/AppInput';
 import styles from './CreateItemPage.module.css';
+import AppTextArea from '../AppTextArea/AppTextArea';
 import AppContainer from '../AppContainer/AppContainer';
 import FetchUsers from '../../utils/FetchBackend/rest/api/users';
 import FetchItems from '../../utils/FetchBackend/rest/api/items';
@@ -210,7 +205,7 @@ export default function CreateItemPage() {
             <tr>
               <td>Наименование</td>
               <td>
-                <MyInput
+                <AppInput
                   type="text"
                   onChange={handleOnChange}
                   name="dp_name"
@@ -222,7 +217,7 @@ export default function CreateItemPage() {
             <tr>
               <td>Модель</td>
               <td>
-                <MyInput
+                <AppInput
                   type="text"
                   onChange={handleOnChange}
                   name="dp_model"
@@ -234,7 +229,7 @@ export default function CreateItemPage() {
             <tr>
               <td>Цена</td>
               <td>
-                <MyInput
+                <AppInput
                   type="number"
                   onChange={handleOnChange}
                   name="dp_cost"
@@ -248,7 +243,7 @@ export default function CreateItemPage() {
             <tr>
               <td>Скрыт</td>
               <td>
-                <MyInput
+                <AppInput
                   id="isCheked"
                   type="checkbox"
                   name="dp_isHidden"
@@ -305,7 +300,7 @@ export default function CreateItemPage() {
             <tr>
               <td>Картинка</td>
               <td>
-                <MyInput
+                <AppInput
                   type="text"
                   onChange={handleOnChange}
                   name="dp_photoUrl"
@@ -331,7 +326,7 @@ export default function CreateItemPage() {
             <tr>
               <td>Описание</td>
               <td>
-                <MyTextArea
+                <AppTextArea
                   onChange={handleOnChange}
                   name="dp_seoDescription"
                   value={data.dp_seoDescription}
@@ -342,7 +337,7 @@ export default function CreateItemPage() {
             <tr>
               <td>Ключевые слова</td>
               <td>
-                <MyTextArea
+                <AppTextArea
                   onChange={handleOnChange}
                   name="dp_seoKeywords"
                   value={data.dp_seoKeywords}
@@ -360,7 +355,7 @@ export default function CreateItemPage() {
                 <span style={{ color: 'gray' }}>(через Enter)</span>
               </td>
               <td>
-                <MyTextArea
+                <AppTextArea
                   onChange={handleOnChange}
                   name="dp_itemGalery"
                   value={data.dp_itemGalery.map(e => e.dp_photoUrl).join('\n')}
@@ -401,7 +396,7 @@ export default function CreateItemPage() {
                 <tr key={e.dp_id}>
                   <td>{e.dp_name}</td>
                   <td>
-                    <MyInput
+                    <AppInput
                       type="text"
                       onChange={handleOnChange}
                       name={`dp_itemCharacteristics[${e.dp_id}]`}
@@ -421,53 +416,5 @@ export default function CreateItemPage() {
         </table>
       </form>
     </AppContainer>
-  );
-}
-
-interface IMyInputProps<T> extends InputHTMLAttributes<T> {
-  errors: any;
-}
-
-function MyInput(props: IMyInputProps<any>) {
-  const errors = props.errors || {};
-  const name = props.name || '_';
-  const currentError = errors[name] || '';
-
-  return (
-    <>
-      {props.type !== 'checkbox' ? null : (
-        <label
-          htmlFor={props.id}
-          data-is-cheked={props.checked ? '1' : '0'}></label>
-      )}
-      <input data-has-errors={currentError.length ? '1' : '0'} {...props} />
-      <span data-has-errors={currentError.length ? '1' : '0'}>
-        {currentError}
-      </span>
-    </>
-  );
-}
-
-interface IMyTextAreaProps<T> extends TextareaHTMLAttributes<T> {
-  errors: any;
-}
-
-function MyTextArea(props: IMyTextAreaProps<any>) {
-  const errors = props.errors || {};
-  const name = props.name || '_';
-  const currentError = errors[name] || '';
-
-  return (
-    <>
-      <textarea
-        name={props.name}
-        onChange={props.onChange}
-        value={props.value}
-        data-has-errors={currentError.length ? '1' : '0'}
-      />
-      <span data-has-errors={currentError.length ? '1' : '0'}>
-        {currentError}
-      </span>
-    </>
   );
 }
