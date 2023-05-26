@@ -85,3 +85,105 @@
 .side__block button:hover {
   background-color: #e8e8e8;
 }
+
+.side__block ul {
+  margin: 0;
+  padding: 0;
+}
+
+.side__block ul li {
+  list-style-type: none;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.side__block ul li label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.side__block ul li input[type='text'],
+.side__block ul li input[type='number'] {
+  width: calc(100% - 1px * 2 - 4px * 2);
+  padding: 4px;
+  border: 1px solid white;
+  color: white;
+  border-radius: 4px;
+  background-color: #202123;
+}
+
+/* radio */
+
+.side__block ul li input[type=radio] {
+  display: none;
+}
+
+.side__block ul li input[type="radio"] + label::before {
+  content: ' ';
+  width: 12px;
+  height: 12px;
+  margin: auto 8px auto 0;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.side__block ul li input[type="radio"]:checked  + label::before {
+  background-color: var(--site-color);
+}
+
+/* end radio */
+
+/* checkbox */
+
+.side__block ul li input[type="checkbox"] {
+  display: none;
+}
+
+.side__block ul li input[type="checkbox"] + label {
+  display: inline-flex;
+  width: 48px;
+  border: 2px solid var(--site-color);
+  border-radius: 12px;
+  margin: auto 8px auto 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.side__block ul li input[type="checkbox"] + label::after {
+  content: ' ';
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.side__block ul li input[type="checkbox"] + label {
+  background-color: white;
+  justify-content: left;
+  border-color: white;
+}
+
+.side__block ul li input[type="checkbox"] + label:after {
+  background-color: #202123;
+}
+
+.side__block ul li input[type="checkbox"]:checked + label {
+  background-color: var(--site-color);
+  justify-content: right;
+  border-color: var(--site-color);
+}
+
+.side__block ul li input[type="checkbox"]:checked + label:after {
+  background-color: white;
+}
+
+/* end checkbox */
+
+.side__block ul ul li {
+  display: flex;
+  align-items: center;
+}
+
+.side__block ul li input + label {
+  display: flex;
+}

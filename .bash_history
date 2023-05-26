@@ -3,3 +3,4 @@ mv dp-admin sources
 
 yarn add react-router-dom"
 yarn add -D prettier
+yarn add xlsx
