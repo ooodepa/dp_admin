@@ -44,11 +44,12 @@ export default async function FetchBackend(
       ? `Bearer ${localStorage.getItem('refresh')}`
       : undefined;
 
+  const URL = `${process.env.REACT_APP__BACKEND_URL}/api/v1/${uri}`;
+
   // eslint-disable-next-line no-console
-  console.log(`${method} /api/v1/${uri}`);
+  console.log({method, URL, useAccessToken: type === 'access'});
 
   if (method === 'GET') {
-    const URL = `${process.env.REACT_APP__BACKEND_URL}/api/v1/${uri}`;
     const response = await fetch(URL, {
       headers: token ? { Authorization: token } : {},
     });
@@ -69,7 +70,6 @@ export default async function FetchBackend(
   }
 
   if (method === 'POST') {
-    const URL = `${process.env.REACT_APP__BACKEND_URL}/api/v1/${uri}`;
     const BODY = JSON.stringify(body);
     const HEADERS = {
       Accept: 'application/json',
@@ -100,7 +100,6 @@ export default async function FetchBackend(
   }
 
   if (method === 'PUT') {
-    const URL = `${process.env.REACT_APP__BACKEND_URL}/api/v1/${uri}`;
     const BODY = JSON.stringify(body);
     const HEADERS = {
       Accept: 'application/json',
@@ -131,7 +130,6 @@ export default async function FetchBackend(
   }
 
   if (method === 'PATCH') {
-    const URL = `${process.env.REACT_APP__BACKEND_URL}/api/v1/${uri}`;
     const BODY = JSON.stringify(body);
     const HEADERS = {
       Accept: 'application/json',
@@ -161,7 +159,6 @@ export default async function FetchBackend(
     return { response, method };
   }
 
-  const URL = `${process.env.REACT_APP__BACKEND_URL}/api/v1/${uri}`;
   const HEADERS = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
