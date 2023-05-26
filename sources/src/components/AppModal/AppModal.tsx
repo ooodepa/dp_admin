@@ -13,8 +13,8 @@ export default function AppModal(props: IProps) {
       <div className={styles.modal}>
         <div className={styles.header}>{props.title}</div>
         <div className={styles.content}>
-          {props.message.split('\n').map(e => (
-            <p>{e}</p>
+          {props.message.split('\n').map((element, index) => (
+            <p key={`${index}-${element}`}>{element}</p>
           ))}
         </div>
         <div className={styles.buttons}>{props.children}</div>
