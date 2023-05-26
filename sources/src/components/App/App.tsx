@@ -11,6 +11,7 @@ import CreateBrandPage from '../CreateBrandPage/CreateBrandPage';
 import UpdateBrandPage from '../UpdateBrandPage/UpdateBrandPage';
 import GetItemCategoriesPage from '../GetItemCategoriesPage/GetItemCategoriesPage';
 import CreateItemCategoryPage from '../CreateItemCategoryPage/CreateItemCategoryPage';
+import UpdateItemCategoryPage from '../UpdateItemCategoryPage/UpdateItemCategoryPage';
 
 export default function App() {
   return (
@@ -23,7 +24,11 @@ export default function App() {
       <Route path="/brands" element={<GetBrandsPage />} />
       <Route path="/brands/:id/" element={<UpdateBrandPage />} />
       <Route path="/brands/new/create" element={<CreateBrandPage />} />
-      <Route path="/item-categories/new/create" element={<CreateItemCategoryPage />} />
+      <Route path="/item-categories/:id" element={<UpdateItemCategoryPage />} />
+      <Route
+        path="/item-categories/new/create"
+        element={<CreateItemCategoryPage />}
+      />
       <Route path="/item-categories" element={<GetItemCategoriesPage />} />
       <Route path="*" element={<Error404Page />} />
     </Routes>

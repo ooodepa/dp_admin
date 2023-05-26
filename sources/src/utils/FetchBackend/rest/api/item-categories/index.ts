@@ -18,6 +18,18 @@ export default class FetchItemCategories {
     throw new HttpException(result.method, response);
   }
 
+  static async getById(id: number) {
+    const result = await FetchBackend('none', 'GET', `item-categories/${id}`);
+    const response = result.response;
+
+    if (response.status === 200) {
+      const json: GetItemCategoryDto = await response.json();
+      return json;
+    }
+
+    throw new HttpException(result.method, response);
+  }
+
   static async filterByBrand(brand: string) {
     const result = await FetchBackend(
       'none',
