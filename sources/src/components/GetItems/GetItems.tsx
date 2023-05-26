@@ -84,55 +84,53 @@ export default function GetItemsPage() {
         checkMatch(filterName, e.dp_name),
       );
     }
-
-    setItems(filteredItems);
-  }, [filterCategoryId, filterModel, filterName, items]);
-
-  useEffect(() => {
+    
     if (!isReverseSort && sortType === 'name') {
-      setItems([...items].sort((a, b) => a.dp_name.localeCompare(b.dp_name)));
+      setItems([...filteredItems].sort((a, b) => a.dp_name.localeCompare(b.dp_name)));
       return;
     }
 
     if (isReverseSort && sortType === 'name') {
-      setItems([...items].sort((a, b) => b.dp_name.localeCompare(a.dp_name)));
+      setItems([...filteredItems].sort((a, b) => b.dp_name.localeCompare(a.dp_name)));
       return;
     }
 
     if (!isReverseSort && sortType === 'model') {
-      setItems([...items].sort((a, b) => a.dp_model.localeCompare(b.dp_model)));
+      setItems([...filteredItems].sort((a, b) => a.dp_model.localeCompare(b.dp_model)));
       return;
     }
 
     if (isReverseSort && sortType === 'model') {
-      setItems([...items].sort((a, b) => b.dp_model.localeCompare(a.dp_model)));
+      setItems([...filteredItems].sort((a, b) => b.dp_model.localeCompare(a.dp_model)));
       return;
     }
 
     if (!isReverseSort && sortType === 'categoryId') {
       setItems(
-        [...items].sort((a, b) => a.dp_itemCategoryId - b.dp_itemCategoryId),
+        [...filteredItems].sort((a, b) => a.dp_itemCategoryId - b.dp_itemCategoryId),
       );
       return;
     }
 
     if (isReverseSort && sortType === 'categoryId') {
       setItems(
-        [...items].sort((a, b) => b.dp_itemCategoryId - a.dp_itemCategoryId),
+        [...filteredItems].sort((a, b) => b.dp_itemCategoryId - a.dp_itemCategoryId),
       );
       return;
     }
 
     if (!isReverseSort && sortType === 'cost') {
-      setItems([...items].sort((a, b) => a.dp_cost - b.dp_cost));
+      setItems([...filteredItems].sort((a, b) => a.dp_cost - b.dp_cost));
       return;
     }
 
     if (isReverseSort && sortType === 'cost') {
-      setItems([...items].sort((a, b) => b.dp_cost - a.dp_cost));
+      setItems([...filteredItems].sort((a, b) => b.dp_cost - a.dp_cost));
       return;
     }
-  }, [isReverseSort, items, sortType]);
+
+    setItems(filteredItems);
+  }, [filterCategoryId, filterModel, filterName, isReverseSort, sortType]);
 
   function checkMatch(search: string, text: string): boolean {
     const regex = new RegExp(`.*${search}.*`);
@@ -349,8 +347,8 @@ export default function GetItemsPage() {
           </ul>
         </div>
       }>
+      {modal}
       <table>
-        {modal}
         <thead>
           <tr>
             <td>Картинка</td>
