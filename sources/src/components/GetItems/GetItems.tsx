@@ -8,8 +8,10 @@ import FetchUsers from '../../utils/FetchBackend/rest/api/users';
 import FetchItems from '../../utils/FetchBackend/rest/api/items';
 import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
 import GetItemDto from '../../utils/FetchBackend/rest/api/items/dto/get-item.dto';
+import FetchItemCategories from '../../utils/FetchBackend/rest/api/item-categories';
 import BrowserDownloadFileController from '../../package/BrowserDownloadFileController';
 import FetchItemCharacteristics from '../../utils/FetchBackend/rest/api/item-characteristics';
+import GetItemCategoryDto from '../../utils/FetchBackend/rest/api/item-categories/dto/get-item-category.dto';
 
 export default function GetItemsPage() {
   const navigate = useNavigate();
@@ -18,35 +20,10 @@ export default function GetItemsPage() {
   const [isReverseSort, setIsReverseSort] = useState(false);
   const [filterCategoryId, setFilterCategoryId] = useState(0);
   const [filterModel, setFilterModel] = useState('');
+  const [filterBrand, setFilterBrand] = useState(0);
   const [filterName, setFilterName] = useState('');
-  const [items, setItems] = useState([
-    {
-      dp_id: '',
-      dp_name: '',
-      dp_model: '',
-      dp_cost: 0,
-      dp_photoUrl: '',
-      dp_seoKeywords: '',
-      dp_seoDescription: '',
-      dp_itemCategoryId: 0,
-      dp_isHidden: '',
-      dp_itemCharacteristics: [
-        {
-          dp_id: 0,
-          dp_itemId: '',
-          dp_characteristicId: 0,
-          dp_value: '',
-        },
-      ],
-      dp_itemGalery: [
-        {
-          dp_id: 0,
-          dp_itemId: '',
-          dp_photoUrl: '',
-        },
-      ],
-    },
-  ]);
+  const [categories, setCategories] = useState<GetItemCategoryDto[]>([]);
+  const [items, setItems] = useState<GetItemDto[]>([]);
 
   useEffect(() => {
     (async function () {
@@ -56,6 +33,9 @@ export default function GetItemsPage() {
         const itemsJson = await FetchItems.get();
         setItems(itemsJson);
         localStorage.setItem('DP_CTL_Items', JSON.stringify(itemsJson));
+
+        const categoriesJson = await FetchItemCategories.get();
+        setCategories(categoriesJson);
       } catch (exception) {
         await AsyncAlertExceptionHelper(exception, navigate);
       }
@@ -76,6 +56,16 @@ export default function GetItemsPage() {
     if (filterModel.length !== 0) {
       filteredItems = filteredItems.filter(e =>
         checkMatch(filterModel, e.dp_model),
+      );
+    }
+
+    if (filterBrand !== 0) {
+      const categoriesIds = categories
+        .filter(obj => obj.dp_itemBrandId === filterBrand)
+        .map(e => e.dp_id);
+
+      filteredItems = filteredItems.filter(e =>
+        categoriesIds.includes(e.dp_itemCategoryId) !== false
       );
     }
 
@@ -142,7 +132,7 @@ export default function GetItemsPage() {
     }
 
     setItems(filteredItems);
-  }, [filterCategoryId, filterModel, filterName, isReverseSort, sortType]);
+  }, [filterCategoryId, filterModel, filterBrand, filterName, isReverseSort, sortType]);
 
   function checkMatch(search: string, text: string): boolean {
     const regex = new RegExp(`.*${search}.*`);
@@ -326,6 +316,16 @@ export default function GetItemsPage() {
                 type="text"
                 value={filterModel}
                 onChange={event => setFilterModel(event.target.value)}
+              />
+            </li>
+            <li>
+              <label htmlFor="filterBrand">- бренд</label>
+              <input
+                id="filterBrand"
+                type="number"
+                value={filterBrand}
+                onChange={event => setFilterBrand(Number(event.target.value))}
+                min={0}
               />
             </li>
             <li>

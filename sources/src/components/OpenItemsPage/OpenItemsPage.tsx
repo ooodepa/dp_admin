@@ -17,7 +17,7 @@ export default function OpenItemsPage() {
   const [characteristics, setCharacteristics] = useState<
     GetItemCharacteristicDto[]
   >([]);
-  const [headers, SetHeaders] = useState<string[]>([]);
+  const [headers, setHeaders] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function OpenItemsPage() {
         h.push(ch[i].dp_name);
       }
 
-      SetHeaders(h);
+      setHeaders(h);
     })();
   }, []);
 
@@ -52,56 +52,71 @@ export default function OpenItemsPage() {
 
       const reader = new FileReader();
 
-      reader.onload = e => {
-        const workbook = XLSX.read(e.target?.result, { type: 'binary' });
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData: string[][] = XLSX.utils.sheet_to_json(worksheet, {
-          header: 1,
-        });
-        const d: ItemDto[] = [];
-        const h = jsonData[0];
-        for (let i = 1; i < jsonData.length; ++i) {
-          const line = jsonData[i];
-          d.push({
-            dp_id: line[h.indexOf('id')] || '',
-            dp_name: line[h.indexOf('Наименование')],
-            dp_cost: Number(line[h.indexOf('Цена')]),
-            // dp_isHidden: line[h.indexOf('Скрыт')] === '1',
-            dp_itemCategoryId: Number(line[h.indexOf('Код категории')]),
-            dp_model: line[h.indexOf('Модель')],
-            dp_photoUrl: line[h.indexOf('Картинка')],
-            dp_seoDescription: line[h.indexOf('Описание')],
-            dp_seoKeywords: line[h.indexOf('Ключевые слова')] || '',
-            dp_itemGalery: (line[h.indexOf('Галерея')] || '')
-              .split(' ')
-              .map(e => {
-                return {
-                  // dp_id: -1,
-                  // dp_itemId: '-1',
-                  dp_photoUrl: e,
-                };
-              })
-              .filter(obj => obj.dp_photoUrl !== ''),
-            dp_itemCharacteristics: characteristics
-              .map(e => {
-                const value = line[h.indexOf(e.dp_name)] || '';
-
-                return {
-                  dp_characteristicId: e.dp_id,
-                  dp_value: value,
-                  // dp_itemId: '',
-                  // dp_id: -1,
-                };
-              })
-              .filter(obj => obj.dp_value !== ''),
+      if (RegExp('.xlsx$').test(`${event.target.files?.[0].name}`)) {
+        reader.onload = e => {
+          const text = e.target?.result;
+          const workbook = XLSX.read(text, { type: 'binary' });
+          const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+          const jsonData: string[][] = XLSX.utils.sheet_to_json(worksheet, {
+            header: 1,
           });
-        }
+          const d: ItemDto[] = [];
+          const h = jsonData[0];
+          for (let i = 1; i < jsonData.length; ++i) {
+            const line = jsonData[i];
+            d.push({
+              dp_id: line[h.indexOf('id')] || '',
+              dp_name: line[h.indexOf('Наименование')],
+              dp_cost: Number(line[h.indexOf('Цена')]),
+              // dp_isHidden: line[h.indexOf('Скрыт')] === '1',
+              dp_itemCategoryId: Number(line[h.indexOf('Код категории')]),
+              dp_model: line[h.indexOf('Модель')],
+              dp_photoUrl: line[h.indexOf('Картинка')],
+              dp_seoDescription: line[h.indexOf('Описание')],
+              dp_seoKeywords: line[h.indexOf('Ключевые слова')] || '',
+              dp_itemGalery: (line[h.indexOf('Галерея')] || '')
+                .split(' ')
+                .map(e => {
+                  return {
+                    // dp_id: -1,
+                    // dp_itemId: '-1',
+                    dp_photoUrl: e,
+                  };
+                })
+                .filter(obj => obj.dp_photoUrl !== ''),
+              dp_itemCharacteristics: characteristics
+                .map(e => {
+                  const value = line[h.indexOf(e.dp_name)] || '';
+  
+                  return {
+                    dp_characteristicId: e.dp_id,
+                    dp_value: value,
+                    // dp_itemId: '',
+                    // dp_id: -1,
+                  };
+                })
+                .filter(obj => obj.dp_value !== ''),
+            });
+          }
+  
+          setArr(d);
+        };
 
-        console.log(d);
-        setArr(d);
-      };
+        reader.readAsBinaryString(file);
+      }
 
-      reader.readAsBinaryString(file);
+      if (RegExp('.json$').test(`${event.target.files?.[0].name}`)) {
+        reader.onload = e => {
+          const text = `${e.target?.result}`;
+          console.log(text);
+          const json: ItemDto[] = JSON.parse(text);
+          console.log(json);
+          setArr(json);
+        };
+
+        reader.readAsText(file, 'UTF-8');
+      }
+
     } catch (exception) {
       console.log(exception);
       alert(exception);
@@ -196,7 +211,7 @@ export default function OpenItemsPage() {
       <table className={styles.table}>
         <thead>
           <tr>
-            <td>-</td>
+            <td>Img</td>
             {headers.map(e => {
               return <td key={e}>{e}</td>;
             })}
