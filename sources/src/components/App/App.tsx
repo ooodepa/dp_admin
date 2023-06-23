@@ -4,6 +4,7 @@ import HomePage from '../HomePage/HomePage';
 import LoginPage from '../LoginPage/LoginPage';
 import GetItemsPage from '../GetItems/GetItems';
 import Error404Page from '../Error404Page/Error404Page';
+import OpenItemsPage from '../OpenItemsPage/OpenItemsPage';
 import CreateItemPage from '../CreateItemPage/CreateItemPage';
 import UpdateItemPage from '../UpdateItemPage/UpdateItemPage';
 import GetItemBrandsPage from '../GetItemBrandsPage/GetItemBrandsPage';
@@ -32,11 +33,15 @@ const routes: IRouter[] = [
     element: <GetItemsPage />,
   },
   {
-    path: '/items/:id/',
+    path: '/items/open/',
+    element: <OpenItemsPage />,
+  },
+  {
+    path: '/items/update/:id/',
     element: <UpdateItemPage />,
   },
   {
-    path: '/items/new/create',
+    path: '/items/new',
     element: <CreateItemPage />,
   },
   {

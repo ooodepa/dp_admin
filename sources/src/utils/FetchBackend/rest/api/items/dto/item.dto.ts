@@ -8,6 +8,7 @@ interface ItemGalery {
 }
 
 export default interface ItemDto {
+  dp_id?: string;
   dp_name: string;
   dp_model: string;
   dp_cost: number;

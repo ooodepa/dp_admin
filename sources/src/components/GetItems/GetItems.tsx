@@ -151,7 +151,13 @@ export default function GetItemsPage() {
 
   function saveAsJson() {
     const filename = 'DP_CTL_Items.json';
-    const text = JSON.stringify(items, null, 2);
+    const arr = [...items];
+    for (let i = 0; i < arr.length; ++i) {
+      arr[i].dp_itemCharacteristics = arr[i].dp_itemCharacteristics.sort(
+        (a, b) => a.dp_id - b.dp_id,
+      );
+    }
+    const text = JSON.stringify(arr, null, 2);
     BrowserDownloadFileController.downloadFile(filename, text);
   }
 
@@ -180,15 +186,42 @@ export default function GetItemsPage() {
       ];
 
       const setCategoriesId: Set<number> = new Set();
-      items.forEach(e => {
-        setCategoriesId.add(e.dp_itemCategoryId);
-      });
+      for (let i = 0; i < items.length; ++i) {
+        setCategoriesId.add(items[i].dp_itemCategoryId);
+      }
 
       const arrayCategoriesId = Array.from(setCategoriesId).sort(
         (a, b) => a - b,
       );
 
       const workbook = xlsx.utils.book_new();
+
+      const allDataArray: string[][] = [];
+      for (let i = 0; i < items.length; ++i) {
+        const item = items[i];
+        allDataArray.push([
+          item.dp_id,
+          item.dp_name,
+          item.dp_model,
+          `${item.dp_cost}`,
+          item.dp_photoUrl,
+          item.dp_seoKeywords,
+          item.dp_seoDescription,
+          `${item.dp_itemCategoryId}`,
+          item.dp_isHidden ? '1' : '0',
+          item.dp_itemGalery.map(e => e.dp_photoUrl).join(' '),
+          ...characteristics.map(
+            e =>
+              item.dp_itemCharacteristics.find(
+                j => e.dp_id === j.dp_characteristicId,
+              )?.dp_value || '',
+          ),
+        ]);
+      }
+
+      const worksheetAll = xlsx.utils.aoa_to_sheet([headers, ...allDataArray]);
+      xlsx.utils.book_append_sheet(workbook, worksheetAll, 'ALL');
+
       for (let i = 0; i < arrayCategoriesId.length; ++i) {
         const categoryId = arrayCategoriesId[i];
 
@@ -266,9 +299,8 @@ export default function GetItemsPage() {
     <TableView
       side={
         <div>
-          <button onClick={() => navigate('new/create')}>
-            Создать новый элемент
-          </button>
+          <button onClick={() => navigate('new')}>Создать новый элемент</button>
+          <button onClick={() => navigate('open')}>Открыть XLSX</button>
           <button onClick={saveAsJson}>Скачать как JSON</button>
           <button onClick={saveItemsAsXlsx}>Скачать как XLSX</button>
           <button onClick={removeFilters}>Убрать фильтры</button>
@@ -393,7 +425,9 @@ export default function GetItemsPage() {
                 <td>{e.dp_itemCategoryId}</td>
                 <td>{Number(e.dp_cost).toFixed(2)}</td>
                 <td>
-                  <button onClick={() => navigate(e.dp_id)}>Обновить</button>
+                  <button onClick={() => navigate(`update/${e.dp_id}`)}>
+                    Обновить
+                  </button>
                 </td>
                 <td>
                   <button onClick={() => preToDelete(e.dp_id)}>Удалить</button>
