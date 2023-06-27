@@ -30,6 +30,18 @@ export default class FetchItems {
     throw new HttpException(result.method, response);
   }
 
+  static async updateBulk(dto: ItemDto[]) {
+    const obj = { bulk: dto };
+    const result = await FetchBackend('access', 'PUT', 'items/bulk', obj);
+    const response = result.response;
+
+    if (response.status === 200) {
+      return true;
+    }
+
+    throw new HttpException(result.method, response);
+  }
+
   static async getById(id: string) {
     const result = await FetchBackend('none', 'GET', `items/${id}`);
     const response = result.response;

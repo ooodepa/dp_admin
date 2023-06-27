@@ -164,6 +164,15 @@ export default function OpenItemsPage() {
     return arrDescriptions.length !== arr.length;
   }
 
+  function hasId() {
+    for(let i = 0; i < arr.length; ++i) {
+      if (!arr[i].dp_id) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   async function createBulk() {
     try {
       if (hasDublicateName()) {
@@ -192,6 +201,39 @@ export default function OpenItemsPage() {
     }
   }
 
+  async function updateBulk() {
+    try {
+      if (hasDublicateName()) {
+        alert('Есть дубликаты наименования!!!');
+        return;
+      }
+
+      if (hasDublicateModels()) {
+        alert('Есть дубликаты модели!!!');
+        return;
+      }
+
+      if (hasDublicateDescriptions()) {
+        alert('Есть дубликаты описания!!!');
+        return;
+      }
+
+      if (!hasId()) {
+        alert('Не у всех записей указаны id!!!');
+        return;
+      }
+
+      const isAdded = await FetchItems.updateBulk(arr);
+      if (isAdded) {
+        alert('Данные обновлены в БД');
+      }
+
+      navigate('/items');
+    } catch (exception) {
+      await AsyncAlertExceptionHelper(exception, navigate);
+    }
+  }
+
   return (
     <TableView
       side={
@@ -206,6 +248,7 @@ export default function OpenItemsPage() {
           />
           <button onClick={downloadJson}>Скачать JSON</button>
           <button onClick={createBulk}>Добавить в БД</button>
+          <button onClick={updateBulk}>Обновить данные в БД</button>
         </>
       }>
       <table className={styles.table}>
