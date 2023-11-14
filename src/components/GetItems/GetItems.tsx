@@ -30,12 +30,27 @@ export default function GetItemsPage() {
       try {
         await FetchUsers.isAdmin();
 
-        const itemsJson = await FetchItems.get();
-        setItems(itemsJson);
-        localStorage.setItem('DP_CTL_Items', JSON.stringify(itemsJson));
 
-        const categoriesJson = await FetchItemCategories.get();
-        setCategories(categoriesJson);
+
+        const categoriesJson = (await FetchItemCategories.get()).sort((a, b) => a.dp_sortingIndex - b.dp_sortingIndex);
+        setCategories(
+          categoriesJson,
+        );
+
+        const jItemsArr: GetItemDto[] = []; 
+        const itemsJson = (await FetchItems.get()).sort((a,b) => a.dp_model.localeCompare(b.dp_model));
+
+          for (let i = 0; i < categoriesJson.length; ++i) {
+            for (let j = 0; j < itemsJson.length; ++j) {
+              if (itemsJson[j].dp_itemCategoryId === categoriesJson[i].dp_id) {
+                jItemsArr.push(itemsJson[j]);
+              }
+            }
+          }
+
+        setItems(jItemsArr);
+        localStorage.setItem('DP_CTL_Items', JSON.stringify(jItemsArr));
+
       } catch (exception) {
         await AsyncAlertExceptionHelper(exception, navigate);
       }

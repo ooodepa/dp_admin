@@ -4,6 +4,7 @@ import HttpResponseDto from '../../../dto/http-response.dto';
 import GetItemCategoryDto from './dto/get-item-category.dto';
 import CreateItemCategoryDto from './dto/create-item-brand.dto';
 import UpdateItemCategoryDto from './dto/update-item-category.dto';
+import ItemCategoryDto from './dto/item-category.dto';
 
 export default class FetchItemCategories {
   static async get() {
@@ -79,6 +80,18 @@ export default class FetchItemCategories {
     throw new HttpException(result.method, response);
   }
 
+  static async updateBulk(dto: ItemCategoryDto[]) {
+    const obj = { bulk: dto };
+    const result = await FetchBackend('access', 'PUT', 'item-categories/bulk', obj);
+    const response = result.response;
+
+    if (response.status === 200) {
+      return true;
+    }
+
+    throw new HttpException(result.method, response);
+  }
+
   static async create(dto: CreateItemCategoryDto) {
     const result = await FetchBackend('access', 'POST', 'item-categories', dto);
     const response = result.response;
@@ -86,6 +99,18 @@ export default class FetchItemCategories {
     if (response.status === 201) {
       const json: HttpResponseDto = await response.json();
       return json;
+    }
+
+    throw new HttpException(result.method, response);
+  }
+
+  static async createBulk(dto: ItemCategoryDto[]) {
+    const obj = { bulk: dto };
+    const result = await FetchBackend('access', 'POST', 'item-categories/bulk', obj);
+    const response = result.response;
+
+    if (response.status === 201) {
+      return true;
     }
 
     throw new HttpException(result.method, response);

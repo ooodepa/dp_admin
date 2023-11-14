@@ -13,6 +13,7 @@ import UpdateItemBrandPage from '../UpdateItemBrandPage/UpdateItemBrandPage';
 import GetItemCategoriesPage from '../GetItemCategoriesPage/GetItemCategoriesPage';
 import CreateItemCategoryPage from '../CreateItemCategoryPage/CreateItemCategoryPage';
 import UpdateItemCategoryPage from '../UpdateItemCategoryPage/UpdateItemCategoryPage';
+import OpenItemCategoriesPage from '../OpenItemCategoriesPage/OpenItemCategoriesPage';
 
 interface IRouter {
   path: string;
@@ -55,6 +56,10 @@ const routes: IRouter[] = [
   {
     path: '/item-brands/new/create',
     element: <CreateImemBrandPage />,
+  },
+  {
+    path: '/item-categories/open/',
+    element: <OpenItemCategoriesPage />,
   },
   {
     path: '/item-categories/:id',

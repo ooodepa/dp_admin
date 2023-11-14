@@ -1,5 +1,5 @@
 import * as xlsx from 'xlsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import AppModal from '../AppModal/AppModal';
@@ -8,38 +8,25 @@ import FetchUsers from '../../utils/FetchBackend/rest/api/users';
 import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
 import FetchItemCategories from '../../utils/FetchBackend/rest/api/item-categories';
 import BrowserDownloadFileController from '../../package/BrowserDownloadFileController';
+import GetItemCategoryDto from '../../utils/FetchBackend/rest/api/item-categories/dto/get-item-category.dto';
 
 export default function GetItemCategoriesPage() {
   const navigate = useNavigate();
   const [modal, setModal] = useState(<></>);
-  const [categories, setCategories] = useState([
-    {
-      dp_id: 0,
-      dp_itemBrandId: 0,
-      dp_name: '',
-      dp_photoUrl: '',
-      dp_urlSegment: '',
-      dp_sortingIndex: 0,
-      dp_seoKeywords: '',
-      dp_seoDescription: '',
-      dp_isHidden: false,
-    },
-  ]);
+  const [categories, setCategories] = useState<GetItemCategoryDto[]>([]);
 
-  useEffect(() => {
-    (async function () {
-      try {
-        await FetchUsers.isAdmin();
+  async function getDataFromDatabase() {
+    try {
+      await FetchUsers.isAdmin();
 
-        const itemCategories = (await FetchItemCategories.get())
-          .sort((a, b) => a.dp_sortingIndex - b.dp_sortingIndex)
-          .sort((a, b) => a.dp_itemBrandId - b.dp_itemBrandId);
-        setCategories(itemCategories);
-      } catch (exception) {
-        await AsyncAlertExceptionHelper(exception, navigate);
-      }
-    })();
-  }, [navigate]);
+      const itemCategories = (await FetchItemCategories.get())
+        .sort((a, b) => a.dp_sortingIndex - b.dp_sortingIndex)
+        .sort((a, b) => a.dp_itemBrandId - b.dp_itemBrandId);
+      setCategories(itemCategories);
+    } catch (exception) {
+      await AsyncAlertExceptionHelper(exception, navigate);
+    }
+  }
 
   function preToDelete(id: number) {
     setModal(
@@ -128,7 +115,7 @@ export default function GetItemCategoriesPage() {
         type: 'array',
       });
 
-      const filename = 'DP_CTL_Items.xlsx';
+      const filename = 'DP_CTL_Item-categories.xlsx';
       const blob = new Blob([excelBuffer], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
@@ -142,7 +129,9 @@ export default function GetItemCategoriesPage() {
     <TableView
       side={
         <>
+          <button onClick={getDataFromDatabase}>Загрузить данные из БД</button>
           <button onClick={() => navigate('new/create')}>Создать новый</button>
+          <button onClick={() => navigate('open')}>Открыть файл</button>
           <button onClick={saveAsJson}>Скачать как JSON</button>
           <button onClick={saveItemsAsXlsx}>Скачать как XLSX</button>
         </>
