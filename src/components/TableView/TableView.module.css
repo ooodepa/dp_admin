@@ -195,3 +195,15 @@
 .side__block ul li input + label {
   display: flex;
 }
+
+
+/* select */
+.side__block ul li select {
+  width: 100%;
+  padding: 4px;
+  border: 2px solid #cfcfcf;
+  color: white;
+  border-radius: 4px;
+  background-color: #202123;
+}
+/* end select */

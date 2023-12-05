@@ -2,9 +2,9 @@ import { Routes, Route } from 'react-router-dom';
 
 import HomePage from '../HomePage/HomePage';
 import LoginPage from '../LoginPage/LoginPage';
-import GetItemsPage from '../GetItems/GetItems';
+import GetItemsPage from '../../pages/admin/items/items';
 import Error404Page from '../Error404Page/Error404Page';
-import OpenItemsPage from '../OpenItemsPage/OpenItemsPage';
+import OpenItemsPage from '../../pages/admin/items/open/open';
 import CreateItemPage from '../CreateItemPage/CreateItemPage';
 import UpdateItemPage from '../UpdateItemPage/UpdateItemPage';
 import GetItemBrandsPage from '../GetItemBrandsPage/GetItemBrandsPage';

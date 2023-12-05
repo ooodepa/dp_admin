@@ -2,15 +2,15 @@ import * as XLSX from 'xlsx';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, ChangeEvent } from 'react';
 
-import AppInput from '../AppInput/AppInput';
-import TableView from '../TableView/TableView';
-import styles from './OpenItemsPage.module.css';
-import FetchItems from '../../utils/FetchBackend/rest/api/items';
-import ItemDto from '../../utils/FetchBackend/rest/api/items/dto/item.dto';
-import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
-import BrowserDownloadFileController from '../../package/BrowserDownloadFileController';
-import FetchItemCharacteristics from '../../utils/FetchBackend/rest/api/item-characteristics';
-import GetItemCharacteristicDto from '../../utils/FetchBackend/rest/api/item-characteristics/dto/get-item-characteristic.dto';
+import AppInput from '../../../../components/AppInput/AppInput';
+import TableView from '../../../../components/TableView/TableView';
+import styles from './open.module.css';
+import FetchItems from '../../../../utils/FetchBackend/rest/api/items';
+import ItemDto from '../../../../utils/FetchBackend/rest/api/items/dto/item.dto';
+import { AsyncAlertExceptionHelper } from '../../../../utils/AlertExceptionHelper';
+import BrowserDownloadFileController from '../../../../package/BrowserDownloadFileController';
+import FetchItemCharacteristics from '../../../../utils/FetchBackend/rest/api/item-characteristics';
+import GetItemCharacteristicDto from '../../../../utils/FetchBackend/rest/api/item-characteristics/dto/get-item-characteristic.dto';
 
 export default function OpenItemsPage() {
   const [arr, setArr] = useState<ItemDto[]>([]);
@@ -22,7 +22,9 @@ export default function OpenItemsPage() {
 
   useEffect(() => {
     (async function () {
-      const ch = await FetchItemCharacteristics.get();
+      const ch = (await FetchItemCharacteristics.get()).sort(
+        (a, b) => a.dp_sortingIndex - b.dp_sortingIndex,
+      );
       setCharacteristics(ch);
 
       const h = [
@@ -68,7 +70,7 @@ export default function OpenItemsPage() {
               dp_id: line[h.indexOf('id')] || '',
               dp_name: line[h.indexOf('Наименование')],
               dp_cost: Number(line[h.indexOf('Цена')]),
-              // dp_isHidden: line[h.indexOf('Скрыт')] === '1',
+              dp_isHidden: Number(line[h.indexOf('Скрыт')]) === 1 ? true : false,
               dp_itemCategoryId: Number(line[h.indexOf('Код категории')]),
               dp_model: line[h.indexOf('Модель')],
               dp_photoUrl: line[h.indexOf('Картинка')],

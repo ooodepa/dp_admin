@@ -101,7 +101,7 @@ export default function UpdateItemPage() {
           dp_seoKeywords: item.dp_seoKeywords,
           dp_seoDescription: item.dp_seoDescription,
           dp_itemCategoryId: item.dp_itemCategoryId,
-          dp_isHidden: item.dp_isHidden === '1',
+          dp_isHidden: item.dp_isHidden,
           dp_itemCharacteristics: item.dp_itemCharacteristics.map(e => ({
             dp_characteristicId: e.dp_characteristicId,
             dp_value: e.dp_value,
