@@ -82,7 +82,12 @@ export default class FetchItemCategories {
 
   static async updateBulk(dto: ItemCategoryDto[]) {
     const obj = { bulk: dto };
-    const result = await FetchBackend('access', 'PUT', 'item-categories/bulk', obj);
+    const result = await FetchBackend(
+      'access',
+      'PUT',
+      'item-categories/bulk',
+      obj,
+    );
     const response = result.response;
 
     if (response.status === 200) {
@@ -106,7 +111,12 @@ export default class FetchItemCategories {
 
   static async createBulk(dto: ItemCategoryDto[]) {
     const obj = { bulk: dto };
-    const result = await FetchBackend('access', 'POST', 'item-categories/bulk', obj);
+    const result = await FetchBackend(
+      'access',
+      'POST',
+      'item-categories/bulk',
+      obj,
+    );
     const response = result.response;
 
     if (response.status === 201) {

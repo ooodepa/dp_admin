@@ -25,7 +25,6 @@ export default function OpenItemCategoriesPage() {
   const navigate = useNavigate();
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    
     try {
       const file = event.target.files?.[0];
       if (!file) return;
@@ -33,7 +32,6 @@ export default function OpenItemCategoriesPage() {
       const reader = new FileReader();
 
       if (RegExp('.xlsx$').test(`${event.target.files?.[0].name}`)) {
-        
         reader.onload = e => {
           const text = e.target?.result;
           const workbook = XLSX.read(text, { type: 'binary' });
@@ -43,7 +41,7 @@ export default function OpenItemCategoriesPage() {
           });
           const d: GetItemCategoryDto[] = [];
           const h = jsonData[0];
-          console.log(jsonData)
+          console.log(jsonData);
           for (let i = 1; i < jsonData.length; ++i) {
             const line = jsonData[i];
             d.push({
@@ -52,29 +50,27 @@ export default function OpenItemCategoriesPage() {
               dp_sortingIndex: Number(line[h.indexOf('Сортировка')]),
               dp_name: line[h.indexOf('Наименование')],
               dp_photoUrl: line[h.indexOf('Картинка')],
-              dp_urlSegment:  line[h.indexOf('Ссылка')],
+              dp_urlSegment: line[h.indexOf('Ссылка')],
               dp_seoKeywords: line[h.indexOf('Ключевые слова')] || '',
               dp_seoDescription: line[h.indexOf('Описание')],
               dp_isHidden: line[h.indexOf('Скрыт')] === '1' ? true : false,
-          });
+            });
 
-          setArr(d);
+            setArr(d);
+          }
+        };
+        reader.readAsBinaryString(file);
+      }
+
+      if (RegExp('.json$').test(`${event.target.files?.[0].name}`)) {
+        reader.onload = e => {
+          const text = `${e.target?.result}`;
+          const json: GetItemCategoryDto[] = JSON.parse(text);
+          setArr(json);
         };
 
+        reader.readAsText(file, 'UTF-8');
       }
-      reader.readAsBinaryString(file);
-    }
-
-    if (RegExp('.json$').test(`${event.target.files?.[0].name}`)) {
-      reader.onload = e => {
-        const text = `${e.target?.result}`;
-        const json: GetItemCategoryDto[] = JSON.parse(text);
-        setArr(json);
-      };
-
-      reader.readAsText(file, 'UTF-8');
-    }
-
     } catch (exception) {
       console.log(exception);
       alert(exception);

@@ -70,7 +70,8 @@ export default function OpenItemsPage() {
               dp_id: line[h.indexOf('id')] || '',
               dp_name: line[h.indexOf('Наименование')],
               dp_cost: Number(line[h.indexOf('Цена')]),
-              dp_isHidden: Number(line[h.indexOf('Скрыт')]) === 1 ? true : false,
+              dp_isHidden:
+                Number(line[h.indexOf('Скрыт')]) === 1 ? true : false,
               dp_itemCategoryId: Number(line[h.indexOf('Код категории')]),
               dp_model: line[h.indexOf('Модель')],
               dp_photoUrl: line[h.indexOf('Картинка')],
@@ -89,7 +90,7 @@ export default function OpenItemsPage() {
               dp_itemCharacteristics: characteristics
                 .map(e => {
                   const value = line[h.indexOf(e.dp_name)] || '';
-  
+
                   return {
                     dp_characteristicId: e.dp_id,
                     dp_value: value,
@@ -100,7 +101,7 @@ export default function OpenItemsPage() {
                 .filter(obj => obj.dp_value !== ''),
             });
           }
-  
+
           setArr(d);
         };
 
@@ -118,7 +119,6 @@ export default function OpenItemsPage() {
 
         reader.readAsText(file, 'UTF-8');
       }
-
     } catch (exception) {
       console.log(exception);
       alert(exception);
@@ -167,7 +167,7 @@ export default function OpenItemsPage() {
   }
 
   function hasId() {
-    for(let i = 0; i < arr.length; ++i) {
+    for (let i = 0; i < arr.length; ++i) {
       if (!arr[i].dp_id) {
         return false;
       }
