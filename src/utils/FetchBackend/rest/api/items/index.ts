@@ -4,6 +4,7 @@ import GetItemDto from './dto/get-item.dto';
 import UpdateItemDto from './dto/update-item.dto';
 import CreateItemDto from './dto/create-item.dto';
 import HttpException from '../../../HttpException';
+import ItemWithIdDto from './dto/item-with-id.dto';
 
 export default class FetchItems {
   static async get() {
@@ -18,7 +19,7 @@ export default class FetchItems {
     throw new HttpException(result.method, response);
   }
 
-  static async createBulk(dto: ItemDto[]) {
+  static async createBulk(dto: ItemWithIdDto[]) {
     const obj = { bulk: dto };
     const result = await FetchBackend('access', 'POST', 'items/bulk', obj);
     const response = result.response;

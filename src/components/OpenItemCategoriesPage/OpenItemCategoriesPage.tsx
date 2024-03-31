@@ -48,9 +48,9 @@ export default function OpenItemCategoriesPage() {
               dp_id: Number(line[h.indexOf('id')]),
               dp_itemBrandId: Number(line[h.indexOf('КодКатегории')]),
               dp_sortingIndex: Number(line[h.indexOf('Сортировка')]),
-              dp_name: line[h.indexOf('Наименование')],
+              dp_seoTitle: line[h.indexOf('Наименование')],
               dp_photoUrl: line[h.indexOf('Картинка')],
-              dp_urlSegment: line[h.indexOf('Ссылка')],
+              dp_seoUrlSegment: line[h.indexOf('Ссылка')],
               dp_seoKeywords: line[h.indexOf('Ключевые слова')] || '',
               dp_seoDescription: line[h.indexOf('Описание')],
               dp_isHidden: line[h.indexOf('Скрыт')] === '1' ? true : false,
@@ -86,7 +86,7 @@ export default function OpenItemCategoriesPage() {
   function hasDublicateName() {
     const setNames: Set<string> = new Set();
     arr.forEach(e => {
-      setNames.add(e.dp_name);
+      setNames.add(e.dp_seoTitle);
     });
     const arrNames = Array.from(setNames);
 
@@ -199,8 +199,8 @@ export default function OpenItemCategoriesPage() {
                 <td>{e.dp_id}</td>
                 <td>{e.dp_itemBrandId}</td>
                 <td>{e.dp_sortingIndex}</td>
-                <td>{e.dp_name}</td>
-                <td>{e.dp_urlSegment}</td>
+                <td>{e.dp_seoTitle}</td>
+                <td>{e.dp_seoUrlSegment}</td>
                 <td>{e.dp_seoKeywords ? e.dp_seoKeywords : 'нет'}</td>
                 <td>{e.dp_seoDescription}</td>
                 <td>{e.dp_isHidden ? 'true' : 'false'}</td>

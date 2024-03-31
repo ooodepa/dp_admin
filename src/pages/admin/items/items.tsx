@@ -101,14 +101,14 @@ export default function GetItemsPage() {
     if (model) {
       result_items = result_items.filter(object => {
         const regex = new RegExp(`.*${model}.*`);
-        return regex.test(object.dp_model);
+        return regex.test(object.dp_seoUrlSegment);
       });
     }
 
     if (name) {
       result_items = result_items.filter(object => {
         const regex = new RegExp(`.*${name}.*`);
-        return regex.test(object.dp_name);
+        return regex.test(object.dp_seoTitle);
       });
     }
 
@@ -117,12 +117,12 @@ export default function GetItemsPage() {
         switch (sortBy) {
           case 'name':
             result_items = result_items.sort((a, b) =>
-              b.dp_name.localeCompare(a.dp_name),
+              b.dp_seoTitle.localeCompare(a.dp_seoTitle),
             );
             break;
           case 'model':
             result_items = result_items.sort((a, b) =>
-              b.dp_model.localeCompare(a.dp_model),
+              b.dp_seoUrlSegment.localeCompare(a.dp_seoUrlSegment),
             );
             break;
           case 'categoryId':
@@ -139,12 +139,12 @@ export default function GetItemsPage() {
         switch (sortBy) {
           case 'name':
             result_items = result_items.sort((a, b) =>
-              a.dp_name.localeCompare(b.dp_name),
+              a.dp_seoTitle.localeCompare(b.dp_seoTitle),
             );
             break;
           case 'model':
             result_items = result_items.sort((a, b) =>
-              a.dp_model.localeCompare(b.dp_model),
+              a.dp_seoUrlSegment.localeCompare(b.dp_seoUrlSegment),
             );
             break;
           case 'categoryId':
@@ -185,7 +185,7 @@ export default function GetItemsPage() {
       (a, b) => a.dp_sortingIndex - b.dp_sortingIndex,
     );
     const array_items = (await FetchItems.get()).sort((a, b) =>
-      a.dp_model.localeCompare(b.dp_model),
+      a.dp_seoUrlSegment.localeCompare(b.dp_seoUrlSegment),
     );
 
     const result_array_items: GetItemDto[] = [];
@@ -236,11 +236,30 @@ export default function GetItemsPage() {
         'Наименование',
         'Модель',
         'Цена',
+        'Это папка',
+        'Родитель',
+        'Индекс сортировки',
+        'Характеристики',
+        'ОптКоличество',
+        'Бренд',
+        'Имя для объединения карточки',
+        'Скрыт',
+        'Валюта',
+        '1С код',
+        '1С наименование',
+        'Картинки',
+        'Картинки 360',
+        'Длина',
+        'Ширина',
+        'Высота',
+        'Вес',
+        'Штрихкоды',
+        'YT',
+        'Артикулы',
         'Картинка',
         'Ключевые слова',
         'Описание',
         'Код категории',
-        'Скрыт',
         'Галерея',
         ...characteristics.map(e => e.dp_name),
       ];
@@ -261,14 +280,33 @@ export default function GetItemsPage() {
         const item = items[i];
         allDataArray.push([
           item.dp_id,
-          item.dp_name,
-          item.dp_model,
+          item.dp_seoTitle,
+          item.dp_seoUrlSegment,
           `${item.dp_cost}`,
+          item.dp_1cIsFolder ? '1' : '0',
+          item.dp_1cParentId,
+          '' + item.dp_sortingIndex,
+          item.dp_textCharacteristics,
+          '' + item.dp_wholesaleQuantity,
+          item.dp_brand,
+          item.dp_combinedName,
+          item.dp_isHidden ? '1' : '0',
+          item.dp_currancy,
+          item.dp_1cCode,
+          item.dp_1cDescription,
+          item.dp_photos,
+          item.dp_photos360,
+          '' + item.dp_width,
+          '' + item.dp_length,
+          '' + item.dp_height,
+          '' + item.dp_weight,
+          item.dp_barcodes,
+          item.dp_youtubeIds,
+          item.dp_vendorIds,
           item.dp_photoUrl,
           item.dp_seoKeywords,
           item.dp_seoDescription,
           `${item.dp_itemCategoryId}`,
-          item.dp_isHidden ? '1' : '0',
           item.dp_itemGalery.map(e => e.dp_photoUrl).join(' '),
           ...characteristics.map(
             e =>
@@ -287,7 +325,7 @@ export default function GetItemsPage() {
 
         const arr = items
           .filter(item => item.dp_itemCategoryId === categoryId)
-          .sort((a, b) => a.dp_model.localeCompare(b.dp_model));
+          .sort((a, b) => a.dp_seoUrlSegment.localeCompare(b.dp_seoUrlSegment));
 
         const data: string[][] = [];
 
@@ -295,9 +333,29 @@ export default function GetItemsPage() {
           const item = arr[j];
           data.push([
             item.dp_id,
-            item.dp_name,
-            item.dp_model,
+            item.dp_seoTitle,
+            item.dp_seoUrlSegment,
             `${item.dp_cost}`,
+            item.dp_1cIsFolder ? '1' : '0',
+            item.dp_1cParentId,
+            '' + item.dp_sortingIndex,
+            item.dp_textCharacteristics,
+            '' + item.dp_wholesaleQuantity,
+            item.dp_brand,
+            item.dp_combinedName,
+            item.dp_isHidden ? '1' : '0',
+            item.dp_currancy,
+            item.dp_1cCode,
+            item.dp_1cDescription,
+            item.dp_photos,
+            item.dp_photos360,
+            '' + item.dp_width,
+            '' + item.dp_length,
+            '' + item.dp_height,
+            '' + item.dp_weight,
+            item.dp_barcodes,
+            item.dp_youtubeIds,
+            item.dp_vendorIds,
             item.dp_photoUrl,
             item.dp_seoKeywords,
             item.dp_seoDescription,
@@ -404,7 +462,7 @@ export default function GetItemsPage() {
                           brandId: `${brand.dp_id}`,
                         })
                       }>
-                      {`(${brand.dp_id}) - ${brand.dp_name}`}
+                      {`(${brand.dp_id}) - ${brand.dp_seoTitle}`}
                     </option>
                   );
                 })}
@@ -431,7 +489,7 @@ export default function GetItemsPage() {
                           ...getSearchParams(),
                           categoryId: `${category.dp_id}`,
                         })
-                      }>{`(${category.dp_id}) - ${category.dp_name}`}</option>
+                      }>{`(${category.dp_id}) - ${category.dp_seoTitle}`}</option>
                   );
                 })}
               </select>
@@ -575,8 +633,8 @@ export default function GetItemsPage() {
                 <td>
                   {!e.dp_photoUrl ? 'нет' : <img src={e.dp_photoUrl} alt="x" />}
                 </td>
-                <td>{e.dp_model}</td>
-                <td>{e.dp_name}</td>
+                <td>{e.dp_seoUrlSegment}</td>
+                <td>{e.dp_seoTitle}</td>
                 <td>{e.dp_itemCategoryId}</td>
                 <td>{Number(e.dp_cost).toFixed(2)}</td>
                 <td>

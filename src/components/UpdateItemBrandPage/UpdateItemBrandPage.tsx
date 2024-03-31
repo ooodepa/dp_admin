@@ -10,27 +10,29 @@ import FetchUsers from '../../utils/FetchBackend/rest/api/users';
 import HttpException from '../../utils/FetchBackend/HttpException';
 import FetchItemBrand from '../../utils/FetchBackend/rest/api/item-brands';
 import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
+import ItemBrandWithIdDto from '../../utils/FetchBackend/rest/api/item-brands/dto/item-brand-with-id.dto';
+import ItemBrandDto from '../../utils/FetchBackend/rest/api/item-brands/dto/item-brand.dto';
 
 export default function UpdateBrandPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [modal, setModal] = useState(<></>);
   const [is404, setIs404] = useState(false);
-  const [original, setOriginal] = useState({
+  const [original, setOriginal] = useState<ItemBrandWithIdDto>({
     dp_id: 0,
-    dp_name: '',
+    dp_seoTitle: '',
     dp_photoUrl: '',
-    dp_urlSegment: '',
+    dp_seoUrlSegment: '',
     dp_sortingIndex: 0,
     dp_seoKeywords: '',
     dp_seoDescription: '',
     dp_isHidden: false,
   });
-  const [data, setData] = useState({
+  const [data, setData] = useState<ItemBrandWithIdDto>({
     dp_id: 0,
-    dp_name: '',
+    dp_seoTitle: '',
     dp_photoUrl: '',
-    dp_urlSegment: '',
+    dp_seoUrlSegment: '',
     dp_sortingIndex: 0,
     dp_seoKeywords: '',
     dp_seoDescription: '',
@@ -91,7 +93,7 @@ export default function UpdateBrandPage() {
 
     let formErrors: any = {};
 
-    if (data.dp_name.length === 0) {
+    if (data.dp_seoTitle.length === 0) {
       formErrors.dp_name = 'Наименование не указано (оно обязательно)';
     }
 
@@ -99,7 +101,7 @@ export default function UpdateBrandPage() {
       formErrors.dp_seoDescription = 'Описание не указано (оно обязательно)';
     }
 
-    if (data.dp_urlSegment.length === 0) {
+    if (data.dp_seoUrlSegment.length === 0) {
       formErrors.dp_urlSegment = 'URL сегмент не указан (он обязателен)';
     }
 
@@ -194,8 +196,8 @@ export default function UpdateBrandPage() {
                 <AppInput
                   type="text"
                   onChange={handleOnChange}
-                  name="dp_name"
-                  value={data.dp_name}
+                  name="dp_seoTitle"
+                  value={data.dp_seoTitle}
                   errors={errors}
                 />
               </td>
@@ -206,8 +208,8 @@ export default function UpdateBrandPage() {
                 <AppInput
                   type="text"
                   onChange={handleOnChange}
-                  name="dp_urlSegment"
-                  value={data.dp_urlSegment}
+                  name="dp_seoUrlSegment"
+                  value={data.dp_seoUrlSegment}
                   errors={errors}
                 />
               </td>

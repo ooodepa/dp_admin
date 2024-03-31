@@ -10,33 +10,24 @@ import FetchUsers from '../../utils/FetchBackend/rest/api/users';
 import FetchItemBrand from '../../utils/FetchBackend/rest/api/item-brands';
 import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
 import FetchItemCategories from '../../utils/FetchBackend/rest/api/item-categories';
+import ItemCategoryWithIdDto from '../../utils/FetchBackend/rest/api/item-categories/dto/item-category-with-id.dto';
+import GetItemBrandDto from '../../utils/FetchBackend/rest/api/item-brands/dto/get-item-brand.dto';
 
 export default function CreateItemCategoryPage() {
   const navigate = useNavigate();
   const [modal, setModal] = useState(<></>);
-  const [data, setData] = useState({
+  const [data, setData] = useState<ItemCategoryWithIdDto>({
     dp_id: 0,
     dp_itemBrandId: 0,
-    dp_name: '',
+    dp_seoTitle: '',
     dp_photoUrl: '',
-    dp_urlSegment: '',
+    dp_seoUrlSegment: '',
     dp_sortingIndex: 0,
     dp_seoKeywords: '',
     dp_seoDescription: '',
     dp_isHidden: false,
   });
-  const [brands, setBrands] = useState([
-    {
-      dp_id: 0,
-      dp_name: '',
-      // dp_photoUrl: '',
-      // dp_urlSegment: '',
-      // dp_sortingIndex: 0,
-      // dp_seoKeywords: '',
-      // dp_seoDescription: '',
-      // dp_isHidden: false,
-    },
-  ]);
+  const [brands, setBrands] = useState<GetItemBrandDto[]>([]);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -82,7 +73,7 @@ export default function CreateItemCategoryPage() {
 
     let formErrors: any = {};
 
-    if (data.dp_name.length === 0) {
+    if (data.dp_seoTitle.length === 0) {
       formErrors.dp_name = 'Наименование не указано (оно обязательно)';
     }
 
@@ -90,7 +81,7 @@ export default function CreateItemCategoryPage() {
       formErrors.dp_seoDescription = 'Описание не указано (оно обязательно)';
     }
 
-    if (data.dp_urlSegment.length === 0) {
+    if (data.dp_seoUrlSegment.length === 0) {
       formErrors.dp_urlSegment = 'URL сегмент не указан (он обязателен)';
     }
 
@@ -132,8 +123,8 @@ export default function CreateItemCategoryPage() {
                 <AppInput
                   type="text"
                   onChange={handleOnChange}
-                  name="dp_name"
-                  value={data.dp_name}
+                  name="dp_seoTitle"
+                  value={data.dp_seoTitle}
                   errors={errors}
                 />
               </td>
@@ -161,7 +152,7 @@ export default function CreateItemCategoryPage() {
                         key={e.dp_id}
                         value={e.dp_id}
                         selected={e.dp_id === data.dp_itemBrandId}>
-                        {e.dp_id} - {e.dp_name}
+                        {e.dp_id} - {e.dp_seoTitle}
                       </option>
                     );
                   })}
@@ -187,8 +178,8 @@ export default function CreateItemCategoryPage() {
                 <AppInput
                   type="text"
                   onChange={handleOnChange}
-                  name="dp_urlSegment"
-                  value={data.dp_urlSegment}
+                  name="dp_seoUrlSegment"
+                  value={data.dp_seoUrlSegment}
                   errors={errors}
                 />
               </td>

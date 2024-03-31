@@ -9,11 +9,13 @@ import AppContainer from '../AppContainer/AppContainer';
 import FetchItems from '../../utils/FetchBackend/rest/api/items';
 import FetchUsers from '../../utils/FetchBackend/rest/api/users';
 import HttpException from '../../utils/FetchBackend/HttpException';
+import ItemDto from '../../utils/FetchBackend/rest/api/items/dto/item.dto';
 import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
 import FetchItemCategories from '../../utils/FetchBackend/rest/api/item-categories';
 import UpdateItemDto from '../../utils/FetchBackend/rest/api/items/dto/update-item.dto';
 import BrowserDownloadFileController from '../../package/BrowserDownloadFileController';
 import FetchItemCharacteristics from '../../utils/FetchBackend/rest/api/item-characteristics';
+import GetItemCategoryDto from '../../utils/FetchBackend/rest/api/item-categories/dto/get-item-category.dto';
 
 export default function UpdateItemPage() {
   const { id } = useParams();
@@ -26,29 +28,38 @@ export default function UpdateItemPage() {
       dp_name: '',
     },
   ]);
-  const [itemCategories, setItemCategories] = useState([
-    {
-      dp_id: 0,
-      dp_name: '',
-      // dp_sortingIndex: 0,
-      // dp_urlSegment: '',
-      // dp_photoUrl: '',
-      // dp_seoKeywords: '',
-      // dp_seoDescription: '',
-      // dp_isHidden: false,
-      // dp_itemBrandId: 0,
-    },
-  ]);
-  const [original, setOriginal] = useState({
+  const [itemCategories, setItemCategories] = useState<GetItemCategoryDto[]>(
+    [],
+  );
+  const [original, setOriginal] = useState<ItemDto>({
     dp_id: '',
-    dp_name: '',
-    dp_model: '',
+    dp_seoTitle: '',
+    dp_seoUrlSegment: '',
     dp_cost: 0,
     dp_photoUrl: '',
     dp_seoKeywords: '',
     dp_seoDescription: '',
     dp_itemCategoryId: 0,
     dp_isHidden: false,
+    dp_1cCode: '',
+    dp_1cDescription: '',
+    dp_1cIsFolder: false,
+    dp_1cParentId: '',
+    dp_barcodes: '',
+    dp_brand: '',
+    dp_combinedName: '',
+    dp_currancy: '',
+    dp_height: 0,
+    dp_length: 0,
+    dp_photos: '',
+    dp_photos360: '',
+    dp_sortingIndex: 0,
+    dp_textCharacteristics: '',
+    dp_vendorIds: '',
+    dp_weight: 0,
+    dp_wholesaleQuantity: 0,
+    dp_width: 0,
+    dp_youtubeIds: '',
     dp_itemCharacteristics: [
       {
         dp_characteristicId: 0,
@@ -57,16 +68,35 @@ export default function UpdateItemPage() {
     ],
     dp_itemGalery: [{ dp_photoUrl: '' }],
   });
-  const [data, setData] = useState({
+  const [data, setData] = useState<UpdateItemDto>({
     dp_id: '',
-    dp_name: '',
-    dp_model: '',
+    dp_seoTitle: '',
+    dp_seoUrlSegment: '',
     dp_cost: 0,
     dp_photoUrl: '',
     dp_seoKeywords: '',
     dp_seoDescription: '',
     dp_itemCategoryId: 0,
     dp_isHidden: false,
+    dp_1cCode: '',
+    dp_1cDescription: '',
+    dp_1cIsFolder: false,
+    dp_1cParentId: '',
+    dp_barcodes: '',
+    dp_brand: '',
+    dp_combinedName: '',
+    dp_currancy: '',
+    dp_height: 0,
+    dp_length: 0,
+    dp_photos: '',
+    dp_photos360: '',
+    dp_sortingIndex: 0,
+    dp_textCharacteristics: '',
+    dp_vendorIds: '',
+    dp_weight: 0,
+    dp_wholesaleQuantity: 0,
+    dp_width: 0,
+    dp_youtubeIds: '',
     dp_itemCharacteristics: [
       {
         dp_characteristicId: 0,
@@ -93,15 +123,7 @@ export default function UpdateItemPage() {
 
         const item = await FetchItems.getById(dp_id);
         const DATA = {
-          dp_id: item.dp_id,
-          dp_name: item.dp_name,
-          dp_model: item.dp_model,
-          dp_cost: item.dp_cost,
-          dp_photoUrl: item.dp_photoUrl,
-          dp_seoKeywords: item.dp_seoKeywords,
-          dp_seoDescription: item.dp_seoDescription,
-          dp_itemCategoryId: item.dp_itemCategoryId,
-          dp_isHidden: item.dp_isHidden,
+          ...item,
           dp_itemCharacteristics: item.dp_itemCharacteristics.map(e => ({
             dp_characteristicId: e.dp_characteristicId,
             dp_value: e.dp_value,
@@ -188,11 +210,11 @@ export default function UpdateItemPage() {
 
     let formErrors: Record<string, any> = {};
 
-    if (data.dp_name.length === 0) {
+    if (data.dp_seoTitle.length === 0) {
       formErrors.dp_name = 'Наименование не указано (оно обязательно)';
     }
 
-    if (data.dp_model.length === 0) {
+    if (data.dp_seoUrlSegment.length === 0) {
       formErrors.dp_model = 'Модель не указана (она обязательна)';
     }
 
@@ -256,7 +278,7 @@ export default function UpdateItemPage() {
         dp_itemGalery: data.dp_itemGalery.filter(e => e.dp_photoUrl.length),
       };
 
-      await FetchItems.update(data.dp_id, dto);
+      await FetchItems.update(data.dp_id || '', dto);
 
       navigate('/items');
     } catch (exception) {
@@ -321,7 +343,7 @@ export default function UpdateItemPage() {
                   type="text"
                   onChange={handleOnChange}
                   name="dp_name"
-                  value={data.dp_name}
+                  value={data.dp_seoTitle}
                   errors={errors}
                 />
               </td>
@@ -333,7 +355,7 @@ export default function UpdateItemPage() {
                   type="text"
                   onChange={handleOnChange}
                   name="dp_model"
-                  value={data.dp_model}
+                  value={data.dp_seoUrlSegment}
                   errors={errors}
                 />
               </td>
@@ -385,7 +407,7 @@ export default function UpdateItemPage() {
                   {itemCategories.map(e => {
                     return (
                       <option key={e.dp_id} value={e.dp_id}>
-                        {e.dp_id} - {e.dp_name}
+                        {e.dp_id} - {e.dp_seoTitle}
                       </option>
                     );
                   })}

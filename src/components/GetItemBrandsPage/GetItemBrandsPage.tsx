@@ -8,22 +8,12 @@ import FetchUsers from '../../utils/FetchBackend/rest/api/users';
 import FetchItemBrand from '../../utils/FetchBackend/rest/api/item-brands';
 import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
 import BrowserDownloadFileController from '../../package/BrowserDownloadFileController';
+import ItemBrandWithIdDto from '../../utils/FetchBackend/rest/api/item-brands/dto/item-brand-with-id.dto';
 
 export default function GetBrandsPage() {
   const navigate = useNavigate();
   const [modal, setModal] = useState(<></>);
-  const [brands, setBrands] = useState([
-    {
-      dp_id: 0,
-      dp_name: '',
-      dp_photoUrl: '',
-      dp_urlSegment: '',
-      dp_sortingIndex: 0,
-      dp_seoKeywords: '',
-      dp_seoDescription: '',
-      dp_isHidden: false,
-    },
-  ]);
+  const [brands, setBrands] = useState<ItemBrandWithIdDto[]>([]);
 
   useEffect(() => {
     (async function () {
@@ -96,9 +86,9 @@ export default function GetBrandsPage() {
         data.push([
           `${brand.dp_id}`,
           `${brand.dp_sortingIndex}`,
-          brand.dp_name,
+          brand.dp_seoTitle,
           brand.dp_photoUrl,
-          brand.dp_urlSegment,
+          brand.dp_seoUrlSegment,
           brand.dp_seoKeywords,
           brand.dp_seoDescription,
           brand.dp_isHidden ? '1' : '0',
@@ -158,8 +148,8 @@ export default function GetBrandsPage() {
                 <td>
                   {!e.dp_photoUrl ? 'нет' : <img src={e.dp_photoUrl} alt="x" />}
                 </td>
-                <td>{e.dp_name}</td>
-                <td>{e.dp_urlSegment}</td>
+                <td>{e.dp_seoTitle}</td>
+                <td>{e.dp_seoUrlSegment}</td>
                 <td>
                   <button onClick={() => navigate(`${e.dp_id}`)}>
                     Обновить

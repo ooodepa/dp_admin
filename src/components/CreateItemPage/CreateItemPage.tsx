@@ -12,6 +12,7 @@ import { AsyncAlertExceptionHelper } from '../../utils/AlertExceptionHelper';
 import FetchItemCategories from '../../utils/FetchBackend/rest/api/item-categories';
 import CreateItemDto from '../../utils/FetchBackend/rest/api/items/dto/create-item.dto';
 import FetchItemCharacteristics from '../../utils/FetchBackend/rest/api/item-characteristics';
+import ItemDto from '../../utils/FetchBackend/rest/api/items/dto/item.dto';
 
 export default function CreateItemPage() {
   const navigation = useNavigate();
@@ -25,7 +26,7 @@ export default function CreateItemPage() {
   const [itemCategories, setItemCategories] = useState([
     {
       dp_id: 0,
-      dp_name: '',
+      dp_seoTitle: '',
       // dp_sortingIndex: 0,
       // dp_urlSegment: '',
       // dp_photoUrl: '',
@@ -35,15 +36,35 @@ export default function CreateItemPage() {
       // dp_itemBrandId: 0,
     },
   ]);
-  const [data, setData] = useState({
-    dp_name: '',
-    dp_model: '',
+  const [data, setData] = useState<ItemDto>({
+    dp_id: '',
+    dp_seoTitle: '',
+    dp_seoUrlSegment: '',
     dp_cost: 0,
     dp_photoUrl: '',
     dp_seoKeywords: '',
     dp_seoDescription: '',
     dp_itemCategoryId: 0,
     dp_isHidden: false,
+    dp_1cCode: '',
+    dp_1cDescription: '',
+    dp_1cIsFolder: false,
+    dp_1cParentId: '',
+    dp_barcodes: '',
+    dp_brand: '',
+    dp_combinedName: '',
+    dp_currancy: '',
+    dp_height: 0,
+    dp_length: 0,
+    dp_photos: '',
+    dp_photos360: '',
+    dp_sortingIndex: 0,
+    dp_textCharacteristics: '',
+    dp_vendorIds: '',
+    dp_weight: 0,
+    dp_wholesaleQuantity: 0,
+    dp_width: 0,
+    dp_youtubeIds: '',
     dp_itemCharacteristics: [
       {
         dp_characteristicId: 0,
@@ -126,11 +147,11 @@ export default function CreateItemPage() {
 
     let formErrors: any = {};
 
-    if (data.dp_name.length === 0) {
+    if (data.dp_seoTitle.length === 0) {
       formErrors.dp_name = 'Наименование не указано (оно обязательно)';
     }
 
-    if (data.dp_model.length === 0) {
+    if (data.dp_seoUrlSegment.length === 0) {
       formErrors.dp_model = 'Модель не указана (она обязательна)';
     }
 
@@ -209,7 +230,7 @@ export default function CreateItemPage() {
                   type="text"
                   onChange={handleOnChange}
                   name="dp_name"
-                  value={data.dp_name}
+                  value={data.dp_seoTitle}
                   errors={errors}
                 />
               </td>
@@ -221,7 +242,7 @@ export default function CreateItemPage() {
                   type="text"
                   onChange={handleOnChange}
                   name="dp_model"
-                  value={data.dp_model}
+                  value={data.dp_seoUrlSegment}
                   errors={errors}
                 />
               </td>
@@ -276,7 +297,7 @@ export default function CreateItemPage() {
                         key={e.dp_id}
                         value={e.dp_id}
                         selected={e.dp_id === data.dp_itemCategoryId}>
-                        {e.dp_id} - {e.dp_name}
+                        {e.dp_id} - {e.dp_seoTitle}
                       </option>
                     );
                   })}

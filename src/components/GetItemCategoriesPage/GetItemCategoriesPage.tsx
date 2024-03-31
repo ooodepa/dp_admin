@@ -97,9 +97,9 @@ export default function GetItemCategoriesPage() {
             `${category.dp_id}`,
             `${category.dp_itemBrandId}`,
             `${category.dp_sortingIndex}`,
-            category.dp_name,
+            category.dp_seoTitle,
             category.dp_photoUrl,
-            category.dp_urlSegment,
+            category.dp_seoUrlSegment,
             category.dp_seoKeywords,
             category.dp_seoDescription,
             category.dp_isHidden ? '1' : '0',
@@ -162,8 +162,8 @@ export default function GetItemCategoriesPage() {
                 <td>
                   {!e.dp_photoUrl ? 'нет' : <img src={e.dp_photoUrl} alt="x" />}
                 </td>
-                <td>{e.dp_name}</td>
-                <td>{e.dp_urlSegment}</td>
+                <td>{e.dp_seoTitle}</td>
+                <td>{e.dp_seoUrlSegment}</td>
                 <td>
                   <button onClick={() => navigate(`${e.dp_id}`)}>
                     Обновить
