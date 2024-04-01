@@ -53,7 +53,7 @@ export default function OpenItemCategoriesPage() {
               dp_seoUrlSegment: line[h.indexOf('Ссылка')],
               dp_seoKeywords: line[h.indexOf('Ключевые слова')] || '',
               dp_seoDescription: line[h.indexOf('Описание')],
-              dp_isHidden: line[h.indexOf('Скрыт')] === '1' ? true : false,
+              dp_isHidden: Number(line[h.indexOf('Скрыт')]) === 1,
             });
 
             setArr(d);
@@ -203,7 +203,7 @@ export default function OpenItemCategoriesPage() {
                 <td>{e.dp_seoUrlSegment}</td>
                 <td>{e.dp_seoKeywords ? e.dp_seoKeywords : 'нет'}</td>
                 <td>{e.dp_seoDescription}</td>
-                <td>{e.dp_isHidden ? 'true' : 'false'}</td>
+                <td>{e.dp_isHidden ? '1' : '0'}</td>
               </tr>
             );
           })}
