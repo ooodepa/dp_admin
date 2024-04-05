@@ -118,16 +118,16 @@ export default function OpenItemsPage() {
                 Number(line[h.indexOf('ОптКоличество')]) || 0,
               dp_width: Number(line[h.indexOf('Длина')]) || 0,
               dp_youtubeIds: line[h.indexOf('YT')] || '',
-              dp_itemGalery: ('' + line[h.indexOf('Галерея')] || '')
+              dp_itemGalery: (line[h.indexOf('Галерея')] || '')
                 .split(' ')
+                .filter(obj => obj.length > 0)
                 .map(e => {
                   return {
                     dp_id: 0,
                     dp_itemId: '',
                     dp_photoUrl: e,
                   };
-                })
-                .filter(obj => obj.dp_photoUrl !== ''),
+                }),
               dp_itemCharacteristics: characteristics
                 .map(e => {
                   const value = line[h.indexOf(e.dp_name)] || '';
