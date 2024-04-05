@@ -1,0 +1,86 @@
+.wrapper input {
+  width: 100%;
+  max-width: 800px;
+  border: 1px solid var(--site-color);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.wrapper input[readonly] {
+  background-color: lightgray;
+}
+
+.wrapper textarea {
+  min-width: 800px;
+  max-width: 800px;
+  min-height: 10em;
+  border: 1px solid var(--site-color);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.wrapper table {
+  width: 100%;
+}
+
+.wrapper table td {
+  padding-bottom: 16px;
+}
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+}
+
+.content {
+  width: 100%;
+  height: calc(100% - 50px - 16px - 1px);
+  overflow-y: scroll;
+  padding-bottom: 16px;
+}
+
+.footer {
+  height: 50px;
+  width: 100%;
+  border-top: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer button {
+  border: 1px solid var(--site-color);
+  padding: 8px;
+  border-radius: 4px;
+  background-color: var(--site-color);
+  color: white;
+}
+
+.footer button:hover {
+  background-color: transparent;
+  color: var(--site-color);
+}
+
+.dialog {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  overflow-y: scroll;
+}
+
+.dialog__pre_block {
+  width: 100%;
+  display: flex;
+}
+
+.dialog__pre_block pre {
+  width: 50%;
+  overflow-y: scroll;
+  border: 1px solid var(--site-color);
+  margin: 16px;
+  border-radius: 4px;
+  padding: 16px;
+}

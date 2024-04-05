@@ -1,10 +1,9 @@
 import FetchBackend from '../../..';
 import ItemDto from './dto/item.dto';
 import GetItemDto from './dto/get-item.dto';
-import UpdateItemDto from './dto/update-item.dto';
 import CreateItemDto from './dto/create-item.dto';
 import HttpException from '../../../HttpException';
-import ItemWithIdDto from './dto/item-with-id.dto';
+import { ItemWithIdDto } from '../../../../../types/de-pa.by/api/v1/items/items.dto';
 
 export default class FetchItems {
   static async get() {
@@ -98,7 +97,7 @@ export default class FetchItems {
     throw new HttpException(result.method, response);
   }
 
-  static async update(id: string, dto: UpdateItemDto) {
+  static async update(id: string, dto: ItemWithIdDto) {
     const result = await FetchBackend('access', 'PATCH', `items/${id}`, dto);
     const response = result.response;
 
